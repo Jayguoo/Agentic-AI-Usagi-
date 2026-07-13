@@ -1,0 +1,17 @@
+{
+  "name": "loop_review",
+  "purpose": "Improve repeated workflows from prior run logs.",
+  "triggers": [
+    "improve this loop",
+    "review runs",
+    "make the automation better",
+    "what failed last time"
+  ],
+  "steps": [
+    "Read AIOS status and recent loop runs.",
+    "Identify repeated failures, unclear prompts, missing context, and approval friction.",
+    "Suggest one small change to the skill, memory, task flow, or UI.",
+    "Record the review using record_loop_run when Jay accepts the improvement."
+  ],
+  "output": "A brief diagnosis plus one concrete improvement."
+}

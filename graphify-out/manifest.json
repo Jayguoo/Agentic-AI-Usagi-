@@ -1,0 +1,62 @@
+{
+  "C:\\Users\\Jaygu\\pp\\Usagi\\knowledge\\outputs\\index.json": {
+    "mtime": 1782777137.705883,
+    "ast_hash": "734739033cfbd1f09f3bcc388f00009b",
+    "semantic_hash": "734739033cfbd1f09f3bcc388f00009b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\knowledge\\raw\\index.json": {
+    "mtime": 1782777137.7038677,
+    "ast_hash": "79f621a78ee3d2611f7eae72be48836b",
+    "semantic_hash": "79f621a78ee3d2611f7eae72be48836b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\knowledge\\wiki\\index.json": {
+    "mtime": 1782777137.7048821,
+    "ast_hash": "70e2b63d04f1285dd00114fefd379043",
+    "semantic_hash": "70e2b63d04f1285dd00114fefd379043"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\pyproject.toml": {
+    "mtime": 1782775978.0961792,
+    "ast_hash": "186fc596975d8d333bf4275c99e3497e",
+    "semantic_hash": "186fc596975d8d333bf4275c99e3497e"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\skills\\knowledge_ingest.json": {
+    "mtime": 1782777137.7017682,
+    "ast_hash": "9e6b64a0f57a184f0dda734264b1c92f",
+    "semantic_hash": "9e6b64a0f57a184f0dda734264b1c92f"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\skills\\loop_review.json": {
+    "mtime": 1782777137.7027733,
+    "ast_hash": "95a00858d8c5d9698f3915281329462b",
+    "semantic_hash": "95a00858d8c5d9698f3915281329462b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\skills\\workflow_audit.json": {
+    "mtime": 1782777137.7007742,
+    "ast_hash": "43cedc6557860f0859350a9dfb96e4eb",
+    "semantic_hash": "43cedc6557860f0859350a9dfb96e4eb"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\usagi.py": {
+    "mtime": 1782777137.6956694,
+    "ast_hash": "e7a7757feeb9158d4340e4163fc91c6e",
+    "semantic_hash": "e7a7757feeb9158d4340e4163fc91c6e"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\app.js": {
+    "mtime": 1782779186.650417,
+    "ast_hash": "25576924ebf413e892e5d8f288707e03",
+    "semantic_hash": "25576924ebf413e892e5d8f288707e03"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\PRODUCT.md": {
+    "mtime": 1782778082.3216493,
+    "ast_hash": "b280358d3e47f21faf2a330100e7037a",
+    "semantic_hash": "b280358d3e47f21faf2a330100e7037a"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\index.html": {
+    "mtime": 1782779186.648409,
+    "ast_hash": "3d8e07a8b286fa3dd5120639aaa77900",
+    "semantic_hash": "3d8e07a8b286fa3dd5120639aaa77900"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\Usagi.png": {
+    "mtime": 1782777664.9516866,
+    "ast_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371",
+    "semantic_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371"
+  }
+}

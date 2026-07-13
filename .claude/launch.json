@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "usagi-api",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "python", "usagi_web.pyw", "--no-browser"],
+      "port": 8765
+    },
+    {
+      "name": "usagi-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "web", "run", "dev"],
+      "port": 5173
+    }
+  ]
+}

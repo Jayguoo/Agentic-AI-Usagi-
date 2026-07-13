@@ -1,0 +1,22 @@
+{
+  "name": "workflow_audit",
+  "purpose": "Find repeated manual work and turn it into specific Usagi skills or staged tasks.",
+  "triggers": [
+    "workflow audit",
+    "what do I repeat",
+    "make this a skill",
+    "daily routine"
+  ],
+  "inputs": [
+    "manual description",
+    "stream of consciousness routine",
+    "recent task or session notes"
+  ],
+  "steps": [
+    "Ask for the missing context only if the workflow cannot be identified.",
+    "Separate repeated actions from one-off work.",
+    "Name each candidate skill with a clear trigger, input, output, tools, and approval boundary.",
+    "Stage tasks or knowledge files instead of silently writing persistent state."
+  ],
+  "output": "A ranked skill chart with trigger, frequency, value, risk, and next action."
+}

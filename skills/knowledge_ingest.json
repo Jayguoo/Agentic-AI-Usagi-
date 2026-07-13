@@ -1,0 +1,22 @@
+{
+  "name": "knowledge_ingest",
+  "purpose": "Turn raw source material into structured knowledge and final outputs.",
+  "triggers": [
+    "ingest this",
+    "summarize this into my AIOS",
+    "turn this into wiki",
+    "save this knowledge"
+  ],
+  "areas": {
+    "raw": "Unprocessed notes, copied source text, transcripts, and reference material.",
+    "wiki": "Clean explanations, durable facts, and cross-linked knowledge.",
+    "outputs": "Finished deliverables such as briefs, scripts, plans, and checklists."
+  },
+  "steps": [
+    "Preserve source facts in raw when the material is new.",
+    "Create a concise wiki version when the idea will be reused.",
+    "Create outputs only when Jay asks for an actionable deliverable.",
+    "Use stage_knowledge_file and wait for approval before writing."
+  ],
+  "output": "A staged raw, wiki, or output file with a short index summary."
+}
