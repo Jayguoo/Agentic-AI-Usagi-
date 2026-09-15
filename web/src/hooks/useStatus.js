@@ -9,6 +9,12 @@ export default function useStatus() {
     skills: 0,
     actions: [],
     recentRuns: [],
+    email: {
+      connected: false,
+      address: "",
+      provider: "Gmail",
+      readOnly: true,
+    },
     ready: false,
   });
   const [error, setError] = useState(null);

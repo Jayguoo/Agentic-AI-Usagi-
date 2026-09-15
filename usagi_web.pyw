@@ -1,12 +1,9 @@
-import argparse
 import asyncio
 import json
 import mimetypes
 import os
 import sys
-import threading
 import urllib.parse
-import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -64,8 +61,20 @@ def status_payload() -> dict:
         "actions": pending,
         "dueReminders": usagi.due_reminder_rows(),
         "scheduledReminders": len([r for r in reminders if r.get("status") == "scheduled"]),
+        "email": usagi.email_connection_status(),
         "ready": True,
     }
+
+
+def trade_payload() -> dict:
+    return usagi.build_trade_companion_snapshot()
+
+
+def connect_email_payload(body: dict) -> dict:
+    return usagi.connect_email(
+        str(body.get("address", "")),
+        str(body.get("appPassword", "")),
+    )
 
 
 class UsagiHandler(BaseHTTPRequestHandler):
@@ -80,6 +89,9 @@ class UsagiHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/status":
             json_response(self, 200, status_payload())
             return
+        if parsed.path == "/api/trades":
+            json_response(self, 200, trade_payload())
+            return
         if parsed.path == "/api/actions":
             json_response(self, 200, {"actions": status_payload()["actions"]})
             return
@@ -90,6 +102,14 @@ class UsagiHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         try:
             body = read_body(self)
+            if parsed.path == "/api/email/connect":
+                try:
+                    email = connect_email_payload(body)
+                    json_response(self, 200, {"email": email, "status": status_payload()})
+                except usagi.EmailConnectionError as error:
+                    json_response(self, 400, {"error": str(error)})
+                return
+
             if parsed.path == "/api/chat":
                 message = str(body.get("message", "")).strip()
                 if not message:
@@ -129,6 +149,7 @@ class UsagiHandler(BaseHTTPRequestHandler):
                     "vault": usagi.VAULT_DIR,
                     "skills": usagi.SKILLS_DIR,
                     "knowledge": usagi.KNOWLEDGE_DIR,
+                    "opentrade": usagi.OPENTRADE_DIR,
                 }
                 path = targets.get(target)
                 if path is None:
@@ -175,26 +196,14 @@ class UsagiHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
-def start_server(open_browser: bool) -> None:
-    url = f"http://{HOST}:{PORT}"
+def start_server() -> None:
     try:
         server = ThreadingHTTPServer((HOST, PORT), UsagiHandler)
     except OSError:
-        if open_browser:
-            webbrowser.open(url)
         return
 
-    if open_browser:
-        threading.Timer(0.4, lambda: webbrowser.open(url)).start()
     server.serve_forever()
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--no-browser", action="store_true")
-    return parser.parse_args()
-
-
 if __name__ == "__main__":
-    args = parse_args()
-    start_server(open_browser=not args.no_browser)
+    start_server()

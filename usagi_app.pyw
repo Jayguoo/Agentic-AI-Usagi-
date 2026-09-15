@@ -1,9 +1,14 @@
-"""Usagi desktop app: native window around the local Usagi web UI."""
+"""Usagi desktop app: native window for the local Usagi agent."""
 
 import ctypes
 import importlib.util
+import os
+import shutil
+import socket
+import subprocess
 import threading
 import time
+import urllib.parse
 import urllib.request
 from ctypes import wintypes
 from pathlib import Path
@@ -13,7 +18,7 @@ import webview
 APP_ID = "Jay.Usagi.Agent"
 ROOT = Path(__file__).resolve().parent
 ICON_FILE = ROOT / "Usagi.ico"
-BG = "#f5eff7"
+BG = "#f3eee2"
 
 try:
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
@@ -62,23 +67,61 @@ def wait_for_server(url: str, timeout: float = 8.0) -> bool:
     return False
 
 
+def port_is_open(host: str, port: int, timeout: float = 0.5) -> bool:
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def ensure_local_ollama(base_url: str, timeout: float = 12.0) -> bool:
+    parsed = urllib.parse.urlsplit(base_url)
+    host = parsed.hostname or ""
+    port = parsed.port or 11434
+    if host not in {"127.0.0.1", "localhost"} or port != 11434:
+        return True
+    if port_is_open(host, port):
+        return True
+
+    executable = shutil.which("ollama")
+    if not executable:
+        return False
+
+    subprocess.Popen(
+        [executable, "serve"],
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        creationflags=subprocess.CREATE_NO_WINDOW,
+    )
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if port_is_open(host, port):
+            return True
+        time.sleep(0.2)
+    return False
+
+
 def main() -> None:
     web = load_web_module()
     url = f"http://{web.HOST}:{web.PORT}"
+    web.usagi.load_env_file(ROOT / ".env.local")
+    ensure_local_ollama(os.environ.get("USAGI_BASE_URL", ""))
 
     # Serve in the background; if the port is already taken, an earlier
     # Usagi server is running and the window just attaches to it.
     threading.Thread(
-        target=web.start_server, kwargs={"open_browser": False}, daemon=True
+        target=web.start_server, daemon=True
     ).start()
     wait_for_server(f"{url}/health")
 
     window = webview.create_window(
         "Usagi",
         url,
-        width=1220,
-        height=780,
-        min_size=(900, 620),
+        width=1280,
+        height=820,
+        min_size=(1100, 700),
         background_color=BG,
     )
     window.events.shown += lambda: apply_window_icon("Usagi")

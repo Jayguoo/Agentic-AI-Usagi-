@@ -1,5 +1,7 @@
 import argparse
 import asyncio
+import base64
+import ctypes
 import imaplib
 import json
 import os
@@ -7,6 +9,7 @@ import re
 import secrets
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from ctypes import wintypes
 from email import message_from_bytes
 from email.header import decode_header
 from html.parser import HTMLParser
@@ -17,12 +20,15 @@ from agents import (
     Agent,
     OpenAIChatCompletionsModel,
     Runner,
+    SessionSettings,
     SQLiteSession,
     WebSearchTool,
     function_tool,
     set_tracing_disabled,
 )
 from openai import AsyncOpenAI, OpenAIError
+
+from trade_companion import build_snapshot as _build_trade_companion_snapshot
 
 
 ROOT = Path(__file__).resolve().parent
@@ -32,10 +38,43 @@ TASKS_FILE = STATE_DIR / "tasks.jsonl"
 ACTIONS_FILE = STATE_DIR / "pending_actions.jsonl"
 RUNS_FILE = STATE_DIR / "loop_runs.jsonl"
 REMINDERS_FILE = STATE_DIR / "reminders.jsonl"
+EMAIL_CREDENTIAL_FILE = STATE_DIR / "email_credentials.json"
 SKILLS_DIR = ROOT / "skills"
 KNOWLEDGE_DIR = ROOT / "knowledge"
 KNOWLEDGE_AREAS = {"raw", "wiki", "outputs"}
 VAULT_DIR = Path(r"C:\Users\Jaygu\Documents\Obsidian Vault")
+OPENTRADE_DIR = Path(r"C:\Users\Jaygu\pp\OpenTrade")
+SESSION_HISTORY_LIMIT = 12
+SESSION_STORAGE_SCAN_LIMIT = 1_000_000
+OPENTRADE_ALLOWED_SUFFIXES = {
+    ".cfg",
+    ".cmd",
+    ".css",
+    ".html",
+    ".ini",
+    ".js",
+    ".json",
+    ".jsonl",
+    ".jsx",
+    ".md",
+    ".ps1",
+    ".py",
+    ".toml",
+    ".ts",
+    ".tsx",
+    ".txt",
+    ".yaml",
+    ".yml",
+}
+OPENTRADE_SKIPPED_DIRS = {
+    ".git",
+    ".playwright-mcp",
+    ".uv-cache",
+    ".venv",
+    "__pycache__",
+    "graphify-out",
+    "logs",
+}
 
 
 def load_env_file(path: Path) -> None:
@@ -341,6 +380,88 @@ def search_workspace(query: str, max_results: int = 12) -> str:
     return json.dumps(results, indent=2, sort_keys=True)
 
 
+def resolve_opentrade_file(relative_path: str) -> Path:
+    root = OPENTRADE_DIR.resolve()
+    path = (root / relative_path).resolve()
+    if root != path and root not in path.parents:
+        raise ValueError("Path must stay inside the OpenTrade project.")
+
+    parts = [part.lower() for part in path.relative_to(root).parts]
+    if any(part in OPENTRADE_SKIPPED_DIRS for part in parts[:-1]):
+        raise ValueError("That OpenTrade directory is not available to Usagi.")
+    if any(part.startswith(".env") for part in parts):
+        raise ValueError("OpenTrade environment files are not available to Usagi.")
+    if path.suffix.lower() not in OPENTRADE_ALLOWED_SUFFIXES:
+        raise ValueError("That OpenTrade file type is not available to Usagi.")
+    return path
+
+
+def read_opentrade_text(relative_path: str, max_chars: int = 12000) -> str:
+    path = resolve_opentrade_file(relative_path)
+    if not path.exists() or not path.is_file():
+        return f"OpenTrade file not found: {relative_path}"
+    return path.read_text(encoding="utf-8", errors="ignore")[: max(500, min(max_chars, 30000))]
+
+
+def build_trade_companion_snapshot(now: datetime | None = None) -> dict[str, Any]:
+    return _build_trade_companion_snapshot(OPENTRADE_DIR, now=now)
+
+
+def search_opentrade_files(query: str, max_results: int = 12) -> list[dict[str, str]]:
+    needle = query.strip().lower()
+    if not needle or not OPENTRADE_DIR.exists():
+        return []
+
+    results: list[dict[str, str]] = []
+    for directory, child_dirs, filenames in os.walk(OPENTRADE_DIR):
+        child_dirs[:] = [
+            name for name in child_dirs if name.lower() not in OPENTRADE_SKIPPED_DIRS
+        ]
+        for filename in filenames:
+            path = Path(directory) / filename
+            try:
+                if path.stat().st_size > 2_000_000:
+                    continue
+                safe_path = resolve_opentrade_file(str(path.relative_to(OPENTRADE_DIR)))
+                text = safe_path.read_text(encoding="utf-8", errors="ignore")
+            except (OSError, ValueError):
+                continue
+            index = text.lower().find(needle)
+            if index == -1:
+                continue
+            start = max(0, index - 120)
+            end = min(len(text), index + len(needle) + 220)
+            results.append(
+                {
+                    "path": str(safe_path.relative_to(OPENTRADE_DIR)),
+                    "snippet": text[start:end].replace("\n", " ").strip(),
+                }
+            )
+            if len(results) >= max(1, min(max_results, 20)):
+                return results
+    return results
+
+
+@function_tool
+def search_opentrade(query: str, max_results: int = 12) -> str:
+    """Read-only search of safe source and documentation files in Jay's OpenTrade project."""
+    if not query.strip():
+        return "Search query was empty."
+    results = search_opentrade_files(query, max_results)
+    if not results:
+        return "No matching OpenTrade files found."
+    return json.dumps(results, indent=2, sort_keys=True)
+
+
+@function_tool
+def read_opentrade_file(relative_path: str, max_chars: int = 12000) -> str:
+    """Read one safe text file from Jay's OpenTrade project without modifying or executing it."""
+    try:
+        return read_opentrade_text(relative_path, max_chars)
+    except (OSError, ValueError) as error:
+        return str(error)
+
+
 @function_tool
 def list_pending_actions() -> str:
     """List staged actions waiting for Jay's approval."""
@@ -637,15 +758,156 @@ def update_reminder(reminder_id: str, op: str) -> str:
     return f"No reminder found with id {reminder_id}."
 
 
+class EmailConnectionError(RuntimeError):
+    pass
+
+
+class _DataBlob(ctypes.Structure):
+    _fields_ = [
+        ("cbData", wintypes.DWORD),
+        ("pbData", ctypes.POINTER(ctypes.c_ubyte)),
+    ]
+
+
+def _data_blob(data: bytes) -> tuple[_DataBlob, ctypes.Array]:
+    buffer = ctypes.create_string_buffer(data)
+    return (
+        _DataBlob(len(data), ctypes.cast(buffer, ctypes.POINTER(ctypes.c_ubyte))),
+        buffer,
+    )
+
+
+def _protect_for_current_user(data: bytes) -> str:
+    input_blob, _buffer = _data_blob(data)
+    output_blob = _DataBlob()
+    crypt32 = ctypes.windll.crypt32
+    crypt32.CryptProtectData.restype = wintypes.BOOL
+    if not crypt32.CryptProtectData(
+        ctypes.byref(input_blob),
+        "Usagi Gmail credentials",
+        None,
+        None,
+        None,
+        0x01,
+        ctypes.byref(output_blob),
+    ):
+        raise ctypes.WinError()
+    try:
+        encrypted = ctypes.string_at(output_blob.pbData, output_blob.cbData)
+        return base64.b64encode(encrypted).decode("ascii")
+    finally:
+        ctypes.windll.kernel32.LocalFree(output_blob.pbData)
+
+
+def _unprotect_for_current_user(token: str) -> bytes:
+    encrypted = base64.b64decode(token.encode("ascii"), validate=True)
+    input_blob, _buffer = _data_blob(encrypted)
+    output_blob = _DataBlob()
+    crypt32 = ctypes.windll.crypt32
+    crypt32.CryptUnprotectData.restype = wintypes.BOOL
+    if not crypt32.CryptUnprotectData(
+        ctypes.byref(input_blob),
+        None,
+        None,
+        None,
+        None,
+        0x01,
+        ctypes.byref(output_blob),
+    ):
+        raise ctypes.WinError()
+    try:
+        return ctypes.string_at(output_blob.pbData, output_blob.cbData)
+    finally:
+        ctypes.windll.kernel32.LocalFree(output_blob.pbData)
+
+
+def save_email_credentials(address: str, password: str, host: str = "imap.gmail.com") -> None:
+    payload = json.dumps(
+        {
+            "address": address.strip(),
+            "password": password,
+            "host": host.strip() or "imap.gmail.com",
+        },
+        separators=(",", ":"),
+    ).encode("utf-8")
+    protected = _protect_for_current_user(payload)
+    ensure_state_dir()
+    EMAIL_CREDENTIAL_FILE.write_text(
+        json.dumps({"version": 1, "protected": protected}),
+        encoding="utf-8",
+    )
+
+
+def _stored_email_settings() -> dict[str, str] | None:
+    try:
+        envelope = json.loads(EMAIL_CREDENTIAL_FILE.read_text(encoding="utf-8"))
+        payload = json.loads(_unprotect_for_current_user(envelope["protected"]).decode("utf-8"))
+        address = str(payload.get("address", "")).strip()
+        password = str(payload.get("password", ""))
+        host = str(payload.get("host", "imap.gmail.com")).strip() or "imap.gmail.com"
+    except (OSError, KeyError, ValueError, TypeError, json.JSONDecodeError):
+        return None
+    if not address or not password:
+        return None
+    return {"host": host, "address": address, "password": password}
+
+
 def email_settings() -> dict[str, str] | None:
     address = os.environ.get("USAGI_EMAIL", "").strip()
     password = os.environ.get("USAGI_EMAIL_PASSWORD", "").strip()
-    if not address or not password:
-        return None
+    if address and password:
+        return {
+            "host": os.environ.get("USAGI_IMAP_HOST", "imap.gmail.com").strip()
+            or "imap.gmail.com",
+            "address": address,
+            "password": password,
+        }
+    return _stored_email_settings()
+
+
+def email_connection_status() -> dict[str, Any]:
+    settings = email_settings()
     return {
-        "host": os.environ.get("USAGI_IMAP_HOST", "imap.gmail.com").strip(),
-        "address": address,
-        "password": password,
+        "connected": settings is not None,
+        "address": settings["address"] if settings else "",
+        "provider": "Gmail",
+        "readOnly": True,
+    }
+
+
+def connect_email(
+    address: str,
+    app_password: str,
+    host: str = "imap.gmail.com",
+) -> dict[str, Any]:
+    clean_address = address.strip()
+    clean_password = "".join(app_password.split())
+    clean_host = host.strip() or "imap.gmail.com"
+    if not clean_address or "@" not in clean_address:
+        raise EmailConnectionError("Enter a valid Gmail address.")
+    if not clean_password:
+        raise EmailConnectionError("Enter a Gmail app password.")
+
+    try:
+        client = imaplib.IMAP4_SSL(clean_host, timeout=15)
+        client.login(clean_address, clean_password)
+        status, _data = client.select("INBOX", readonly=True)
+        if status != "OK":
+            raise EmailConnectionError("Gmail connected, but the inbox could not be opened read-only.")
+        client.logout()
+    except imaplib.IMAP4.error as error:
+        raise EmailConnectionError(
+            "Gmail rejected the app password. Check the address and create a new app password."
+        ) from error
+    except OSError as error:
+        raise EmailConnectionError("Gmail could not be reached. Check the network and try again.") from error
+
+    save_email_credentials(clean_address, clean_password, clean_host)
+    return {
+        "connected": True,
+        "address": clean_address,
+        "provider": "Gmail",
+        "readOnly": True,
     }
 
 
@@ -835,6 +1097,8 @@ You are Usagi, Jay's private personal agent.
 Work style:
 - Lead with the answer and stay concise.
 - Use tools before guessing about Jay's notes, tasks, memory, or this workspace.
+- For OpenTrade questions, use search_opentrade and read_opentrade_file before answering.
+- OpenTrade access is strictly read-only. Never read its environment files, modify its files, run its commands, import it, or execute trading actions.
 - Search the Obsidian vault when Jay mentions notes, tasks, people, projects, Helix, MCP, autogen, RisingWave, pwndbg, bug bounty, Breadcrumb, or Voyager.
 - Use AIOS skills for repeated workflows. Read the matching skill before running or improving a workflow.
 - Check structured knowledge indexes before deep searches: raw is source material, wiki is cleaned knowledge, outputs are final deliverables.
@@ -853,6 +1117,7 @@ Paths:
 - Skills: {SKILLS_DIR}
 - Structured knowledge: {KNOWLEDGE_DIR}
 - Obsidian vault: {VAULT_DIR}
+- OpenTrade project (read-only): {OPENTRADE_DIR}
 
 Approval flow:
 - To remember a fact, use stage_memory_fact.
@@ -871,6 +1136,8 @@ Approval flow:
         read_obsidian_note,
         stage_obsidian_note,
         search_workspace,
+        search_opentrade,
+        read_opentrade_file,
         list_pending_actions,
         list_skills,
         read_skill,
@@ -912,6 +1179,20 @@ Approval flow:
     )
 
 
+async def trim_unanswered_session_tail(session: SQLiteSession) -> None:
+    items = await session.get_items(limit=SESSION_STORAGE_SCAN_LIMIT)
+    while items and items[-1].get("role") == "user":
+        await session.pop_item()
+        items.pop()
+
+
+async def rollback_session_to(session: SQLiteSession, item_count: int) -> None:
+    items = await session.get_items(limit=SESSION_STORAGE_SCAN_LIMIT)
+    while len(items) > item_count:
+        await session.pop_item()
+        items.pop()
+
+
 async def ask_agent(message: str) -> str:
     load_env_file(ROOT / ".env.local")
     if not os.environ.get("USAGI_BASE_URL") and not os.environ.get("OPENAI_API_KEY"):
@@ -921,10 +1202,31 @@ async def ask_agent(message: str) -> str:
 
     ensure_aios_dirs()
     ensure_state_dir()
-    session = SQLiteSession("jay", str(STATE_DIR / "conversation.db"))
+    session = SQLiteSession(
+        "jay",
+        str(STATE_DIR / "conversation.db"),
+        session_settings=SessionSettings(limit=SESSION_HISTORY_LIMIT),
+    )
+    agent = build_agent()
+    await trim_unanswered_session_tail(session)
+    session_item_count = len(
+        await session.get_items(limit=SESSION_STORAGE_SCAN_LIMIT)
+    )
     try:
-        result = await Runner.run(build_agent(), message, session=session)
+        result = await Runner.run(agent, message, session=session)
+        output = str(result.final_output or "").strip()
+        if not output:
+            await rollback_session_to(session, session_item_count)
+            result = await Runner.run(
+                agent,
+                f"{message}\n\nProvide a concise final answer. Do not return an empty response.",
+                session=session,
+            )
+            output = str(result.final_output or "").strip()
+        if not output:
+            raise RuntimeError("The model returned an empty response twice.")
     except Exception:
+        await rollback_session_to(session, session_item_count)
         append_jsonl(
             RUNS_FILE,
             {
@@ -942,11 +1244,11 @@ async def ask_agent(message: str) -> str:
             "kind": "chat",
             "status": "ok",
             "message_preview": message[:240],
-            "output_preview": str(result.final_output)[:240],
+            "output_preview": output[:240],
             "created_at": now_iso(),
         },
     )
-    return result.final_output
+    return output
 
 
 async def interactive() -> None:

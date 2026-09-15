@@ -15,9 +15,9 @@
     "semantic_hash": "70e2b63d04f1285dd00114fefd379043"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\pyproject.toml": {
-    "mtime": 1782775978.0961792,
-    "ast_hash": "186fc596975d8d333bf4275c99e3497e",
-    "semantic_hash": "186fc596975d8d333bf4275c99e3497e"
+    "mtime": 1783502992.5328162,
+    "ast_hash": "e1eb429776558a38bbf0295bb0929337",
+    "semantic_hash": "e1eb429776558a38bbf0295bb0929337"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\skills\\knowledge_ingest.json": {
     "mtime": 1782777137.7017682,
@@ -35,14 +35,9 @@
     "semantic_hash": "43cedc6557860f0859350a9dfb96e4eb"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\usagi.py": {
-    "mtime": 1782777137.6956694,
-    "ast_hash": "e7a7757feeb9158d4340e4163fc91c6e",
-    "semantic_hash": "e7a7757feeb9158d4340e4163fc91c6e"
-  },
-  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\app.js": {
-    "mtime": 1782779186.650417,
-    "ast_hash": "25576924ebf413e892e5d8f288707e03",
-    "semantic_hash": "25576924ebf413e892e5d8f288707e03"
+    "mtime": 1784179577.6225681,
+    "ast_hash": "7fc8b134e747c8fc8540166f7fe75594",
+    "semantic_hash": "7fc8b134e747c8fc8540166f7fe75594"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\PRODUCT.md": {
     "mtime": 1782778082.3216493,
@@ -50,13 +45,413 @@
     "semantic_hash": "b280358d3e47f21faf2a330100e7037a"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\web\\index.html": {
-    "mtime": 1782779186.648409,
-    "ast_hash": "3d8e07a8b286fa3dd5120639aaa77900",
-    "semantic_hash": "3d8e07a8b286fa3dd5120639aaa77900"
+    "mtime": 1784100440.938051,
+    "ast_hash": "410a70069dd6a23ecfc22251bb85ea80",
+    "semantic_hash": "410a70069dd6a23ecfc22251bb85ea80"
   },
   "C:\\Users\\Jaygu\\pp\\Usagi\\Usagi.png": {
     "mtime": 1782777664.9516866,
     "ast_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371",
     "semantic_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\.claude\\launch.json": {
+    "mtime": 1783406301.7462616,
+    "ast_hash": "4f6c5b7439fcb91e3f73104967c9434f",
+    "semantic_hash": "4f6c5b7439fcb91e3f73104967c9434f"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\IwaKeyDistribution\\manifest.json": {
+    "mtime": 1784093700.6070917,
+    "ast_hash": "f9633c2a820aca629135c9a71a2280d0",
+    "semantic_hash": "f9633c2a820aca629135c9a71a2280d0"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\MEIPreload\\manifest.json": {
+    "mtime": 1784093700.614314,
+    "ast_hash": "442699c95b20a60470421c6a4d29960f",
+    "semantic_hash": "442699c95b20a60470421c6a4d29960f"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\PrivacySandboxAttestationsPreloaded\\manifest.json": {
+    "mtime": 1784093700.614314,
+    "ast_hash": "31c3d9d18dce3f1e88374c0f1b052692",
+    "semantic_hash": "31c3d9d18dce3f1e88374c0f1b052692"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\hyphen-data\\manifest.json": {
+    "mtime": 1784093706.6368947,
+    "ast_hash": "354812f4e7ec5215e7ce9e5af8ccd3a3",
+    "semantic_hash": "354812f4e7ec5215e7ce9e5af8ccd3a3"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\resources\\accessibility\\reading_mode_gdocs_helper\\content.js": {
+    "mtime": 1784093706.2804267,
+    "ast_hash": "a6aecf2ab6fd66d72974584438a013b5",
+    "semantic_hash": "a6aecf2ab6fd66d72974584438a013b5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\resources\\accessibility\\reading_mode_gdocs_helper\\gdocs_script.js": {
+    "mtime": 1784093706.2804267,
+    "ast_hash": "0818ea5737462bfe5c021b9d4b922e31",
+    "semantic_hash": "0818ea5737462bfe5c021b9d4b922e31"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\resources\\accessibility\\reading_mode_gdocs_helper_manifest.json": {
+    "mtime": 1784093706.2804267,
+    "ast_hash": "42ec742a4fb44ed11d1bc4a3a0874a85",
+    "semantic_hash": "42ec742a4fb44ed11d1bc4a3a0874a85"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium-1228\\chrome-win64\\vk_swiftshader_icd.json": {
+    "mtime": 1784093706.4179275,
+    "ast_hash": "8642dd3a87e2de6e991fae08458e302b",
+    "semantic_hash": "8642dd3a87e2de6e991fae08458e302b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium_headless_shell-1228\\chrome-headless-shell-win64\\PrivacySandboxAttestationsPreloaded\\manifest.json": {
+    "mtime": 1784093725.4674952,
+    "ast_hash": "31c3d9d18dce3f1e88374c0f1b052692",
+    "semantic_hash": "31c3d9d18dce3f1e88374c0f1b052692"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium_headless_shell-1228\\chrome-headless-shell-win64\\resources\\accessibility\\reading_mode_gdocs_helper\\content.js": {
+    "mtime": 1784093729.3979728,
+    "ast_hash": "a6aecf2ab6fd66d72974584438a013b5",
+    "semantic_hash": "a6aecf2ab6fd66d72974584438a013b5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium_headless_shell-1228\\chrome-headless-shell-win64\\resources\\accessibility\\reading_mode_gdocs_helper\\gdocs_script.js": {
+    "mtime": 1784093729.3979728,
+    "ast_hash": "0818ea5737462bfe5c021b9d4b922e31",
+    "semantic_hash": "0818ea5737462bfe5c021b9d4b922e31"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium_headless_shell-1228\\chrome-headless-shell-win64\\resources\\accessibility\\reading_mode_gdocs_helper_manifest.json": {
+    "mtime": 1784093729.408431,
+    "ast_hash": "42ec742a4fb44ed11d1bc4a3a0874a85",
+    "semantic_hash": "42ec742a4fb44ed11d1bc4a3a0874a85"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\.playwright\\chromium_headless_shell-1228\\chrome-headless-shell-win64\\vk_swiftshader_icd.json": {
+    "mtime": 1784093729.4630299,
+    "ast_hash": "8642dd3a87e2de6e991fae08458e302b",
+    "semantic_hash": "8642dd3a87e2de6e991fae08458e302b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\package.json": {
+    "mtime": 1784098653.6619124,
+    "ast_hash": "b2a05c3ea3dfc7c5e9c5cd9500cf17cf",
+    "semantic_hash": "b2a05c3ea3dfc7c5e9c5cd9500cf17cf"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\playwright.config.js": {
+    "mtime": 1784093829.448504,
+    "ast_hash": "ee84e54eacfaee972c1bb198c130994b",
+    "semantic_hash": "ee84e54eacfaee972c1bb198c130994b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\App.jsx": {
+    "mtime": 1784098821.8771565,
+    "ast_hash": "18753e66424f7bd828bd92bf96a081ab",
+    "semantic_hash": "18753e66424f7bd828bd92bf96a081ab"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\components\\FlatUsagi.jsx": {
+    "mtime": 1784099573.128276,
+    "ast_hash": "9c88cbf098d5944b96dcd8bc84ae4c34",
+    "semantic_hash": "9c88cbf098d5944b96dcd8bc84ae4c34"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\components\\PhaseRail.jsx": {
+    "mtime": 1784098397.6082582,
+    "ast_hash": "c245d86443b38e9be5d776705d7136f1",
+    "semantic_hash": "c245d86443b38e9be5d776705d7136f1"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\components\\TaskInspector.jsx": {
+    "mtime": 1784098397.6052005,
+    "ast_hash": "13d322bc73512c5cb4b34cbad6da8483",
+    "semantic_hash": "13d322bc73512c5cb4b34cbad6da8483"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\hooks\\useAgentAudio.js": {
+    "mtime": 1784095093.320612,
+    "ast_hash": "95eb2e6c251fe4ed3ffa31d36f8dce91",
+    "semantic_hash": "95eb2e6c251fe4ed3ffa31d36f8dce91"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\main.jsx": {
+    "mtime": 1784093638.8150623,
+    "ast_hash": "507885869312ab3581a53a065a5b8753",
+    "semantic_hash": "507885869312ab3581a53a065a5b8753"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\presentation.js": {
+    "mtime": 1784098821.8771565,
+    "ast_hash": "079c2085dc020ecd4c68fd469486f157",
+    "semantic_hash": "079c2085dc020ecd4c68fd469486f157"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\presentation.test.js": {
+    "mtime": 1784098821.8821929,
+    "ast_hash": "89f5dfb8417bf11b06089b7529f8ccfe",
+    "semantic_hash": "89f5dfb8417bf11b06089b7529f8ccfe"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\simulation.js": {
+    "mtime": 1784094877.2929113,
+    "ast_hash": "44f7a9affea68ae776ef5559f1f0ca3b",
+    "semantic_hash": "44f7a9affea68ae776ef5559f1f0ca3b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\simulation.test.js": {
+    "mtime": 1784094808.398769,
+    "ast_hash": "0c05d2691d79fc5d13304e9c67392ecb",
+    "semantic_hash": "0c05d2691d79fc5d13304e9c67392ecb"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\tests\\app.spec.js": {
+    "mtime": 1784098250.0494945,
+    "ast_hash": "28946870c647cf6b4a4e6e0e71b90191",
+    "semantic_hash": "28946870c647cf6b4a4e6e0e71b90191"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\vite.config.js": {
+    "mtime": 1784098642.3775928,
+    "ast_hash": "8d9688554f8e345abd0024810c672377",
+    "semantic_hash": "8d9688554f8e345abd0024810c672377"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\test_usagi_app.py": {
+    "mtime": 1784179510.3339336,
+    "ast_hash": "4f63ea036b6192097fcb47dda13e3722",
+    "semantic_hash": "4f63ea036b6192097fcb47dda13e3722"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\package.json": {
+    "mtime": 1784100440.938051,
+    "ast_hash": "bab20199cd9abb849a1b06b8fc35df0c",
+    "semantic_hash": "bab20199cd9abb849a1b06b8fc35df0c"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\App.jsx": {
+    "mtime": 1784179533.7429173,
+    "ast_hash": "beea649a1dccf66646e9977ebaaafd92",
+    "semantic_hash": "beea649a1dccf66646e9977ebaaafd92"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\App.test.jsx": {
+    "mtime": 1784179510.0615807,
+    "ast_hash": "50118ec2b68d9dac7763688d0bfcc32b",
+    "semantic_hash": "50118ec2b68d9dac7763688d0bfcc32b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\api.js": {
+    "mtime": 1783500423.3173695,
+    "ast_hash": "00a732f8c727540dc71d2cddd3041b9b",
+    "semantic_hash": "00a732f8c727540dc71d2cddd3041b9b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\ApprovalTray.jsx": {
+    "mtime": 1783406796.1394477,
+    "ast_hash": "9b7eec1dffce475fc9d6d71c942471be",
+    "semantic_hash": "9b7eec1dffce475fc9d6d71c942471be"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\ChatStage.jsx": {
+    "mtime": 1783502202.860711,
+    "ast_hash": "b553fcb5e9198716083d0e74255e79ba",
+    "semantic_hash": "b553fcb5e9198716083d0e74255e79ba"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\Drawer.jsx": {
+    "mtime": 1783500480.3467221,
+    "ast_hash": "c835d2300b51ace31820bbec736bd060",
+    "semantic_hash": "c835d2300b51ace31820bbec736bd060"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\MessageBubble.jsx": {
+    "mtime": 1783406787.247183,
+    "ast_hash": "2db325e083279c09391684093f46291d",
+    "semantic_hash": "2db325e083279c09391684093f46291d"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\Rail.jsx": {
+    "mtime": 1783406780.242101,
+    "ast_hash": "3f16b0eacd50d332de10e4f5b411476b",
+    "semantic_hash": "3f16b0eacd50d332de10e4f5b411476b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\ReminderTray.jsx": {
+    "mtime": 1783500426.99805,
+    "ast_hash": "630b6f8497aea2179758b6a24e816f5e",
+    "semantic_hash": "630b6f8497aea2179758b6a24e816f5e"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\decorations.jsx": {
+    "mtime": 1783501983.148051,
+    "ast_hash": "4861e36d69bc23f1dea2683e2e2bb755",
+    "semantic_hash": "4861e36d69bc23f1dea2683e2e2bb755"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\components\\icons.jsx": {
+    "mtime": 1783406768.5267887,
+    "ast_hash": "0350208fe249a376296bfc7b514ee9e4",
+    "semantic_hash": "0350208fe249a376296bfc7b514ee9e4"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\hooks\\useChat.js": {
+    "mtime": 1783117083.5904605,
+    "ast_hash": "2c08dd9f14d8566e5bd8bb0dff48859a",
+    "semantic_hash": "2c08dd9f14d8566e5bd8bb0dff48859a"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\hooks\\useStatus.js": {
+    "mtime": 1783117080.078344,
+    "ast_hash": "5bcaaac57e8a9f315bae73b2516733fc",
+    "semantic_hash": "5bcaaac57e8a9f315bae73b2516733fc"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\src\\main.jsx": {
+    "mtime": 1783117077.0118408,
+    "ast_hash": "c081679b408322006ab4751541686a9b",
+    "semantic_hash": "c081679b408322006ab4751541686a9b"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\vite.config.js": {
+    "mtime": 1784099909.2217543,
+    "ast_hash": "cf30c9ba4c48b0414dda4c4c04750446",
+    "semantic_hash": "cf30c9ba4c48b0414dda4c4c04750446"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\README.md": {
+    "mtime": 1783942041.7045815,
+    "ast_hash": "999ea8e254276349e28eaf24d95ac7d5",
+    "semantic_hash": "999ea8e254276349e28eaf24d95ac7d5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\index.html": {
+    "mtime": 1784094912.2228572,
+    "ast_hash": "4c15c0e418e7e63afd942687b0e4114e",
+    "semantic_hash": "4c15c0e418e7e63afd942687b0e4114e"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\agent-ui\\fable\\src\\assets\\usagi.png": {
+    "mtime": 1782777664.9516866,
+    "ast_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371",
+    "semantic_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-button.png": {
+    "mtime": 1783590239.3189917,
+    "ast_hash": "d7c388c03317c7b94aa8a45a0a1b60e3",
+    "semantic_hash": "d7c388c03317c7b94aa8a45a0a1b60e3"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-haa.png": {
+    "mtime": 1783590239.3327975,
+    "ast_hash": "191da26733b393ee07e59fddcd461283",
+    "semantic_hash": "191da26733b393ee07e59fddcd461283"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-hungry.png": {
+    "mtime": 1783590239.4668777,
+    "ast_hash": "028ad064c6c9db8e1e5bbbdfe87bd4b5",
+    "semantic_hash": "028ad064c6c9db8e1e5bbbdfe87bd4b5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-main.png": {
+    "mtime": 1783590239.4806354,
+    "ast_hash": "1dca5dbb85e80f05977217075e316023",
+    "semantic_hash": "1dca5dbb85e80f05977217075e316023"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-portrait.png": {
+    "mtime": 1783590239.512728,
+    "ast_hash": "30dbcd3abf322201516f0f2dc8fb4800",
+    "semantic_hash": "30dbcd3abf322201516f0f2dc8fb4800"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-pose.png": {
+    "mtime": 1783590239.5468154,
+    "ast_hash": "ecd5af29435e4e3a52b9623c48f5d9c5",
+    "semantic_hash": "ecd5af29435e4e3a52b9623c48f5d9c5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-sad.png": {
+    "mtime": 1783590239.5801947,
+    "ast_hash": "9b14c9ed38b0fb25ffb194845b19dc03",
+    "semantic_hash": "9b14c9ed38b0fb25ffb194845b19dc03"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\graphics-inbox\\usagi-yaha.png": {
+    "mtime": 1783590239.6035666,
+    "ast_hash": "9530ab9d62b2cbc3a81069cc767c6368",
+    "semantic_hash": "9530ab9d62b2cbc3a81069cc767c6368"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\Usagi.png": {
+    "mtime": 1782777664.9516866,
+    "ast_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371",
+    "semantic_hash": "f85a3f9fc1b626bc1a5c3dbe996a3371"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\chiikawa-checking.gif": {
+    "mtime": 1784174338.9715798,
+    "ast_hash": "742d2999de73dfef7155beb3dc0bf672",
+    "semantic_hash": "742d2999de73dfef7155beb3dc0bf672"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-button.png": {
+    "mtime": 1783590239.3189917,
+    "ast_hash": "d7c388c03317c7b94aa8a45a0a1b60e3",
+    "semantic_hash": "d7c388c03317c7b94aa8a45a0a1b60e3"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-celebrate.png": {
+    "mtime": 1783590239.3327975,
+    "ast_hash": "191da26733b393ee07e59fddcd461283",
+    "semantic_hash": "191da26733b393ee07e59fddcd461283"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-delivered.png": {
+    "mtime": 1783590239.6035666,
+    "ast_hash": "9530ab9d62b2cbc3a81069cc767c6368",
+    "semantic_hash": "9530ab9d62b2cbc3a81069cc767c6368"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-hungry.png": {
+    "mtime": 1783590239.4668777,
+    "ast_hash": "028ad064c6c9db8e1e5bbbdfe87bd4b5",
+    "semantic_hash": "028ad064c6c9db8e1e5bbbdfe87bd4b5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-idle.png": {
+    "mtime": 1783590239.4806354,
+    "ast_hash": "1dca5dbb85e80f05977217075e316023",
+    "semantic_hash": "1dca5dbb85e80f05977217075e316023"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-portrait.png": {
+    "mtime": 1783590239.512728,
+    "ast_hash": "30dbcd3abf322201516f0f2dc8fb4800",
+    "semantic_hash": "30dbcd3abf322201516f0f2dc8fb4800"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-pose.png": {
+    "mtime": 1783590239.5468154,
+    "ast_hash": "ecd5af29435e4e3a52b9623c48f5d9c5",
+    "semantic_hash": "ecd5af29435e4e3a52b9623c48f5d9c5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-sad-cutout.png": {
+    "mtime": 1784176244.8286748,
+    "ast_hash": "3bbe398e052094491bae680013f7aa61",
+    "semantic_hash": "3bbe398e052094491bae680013f7aa61"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-sad.png": {
+    "mtime": 1783590239.5801947,
+    "ast_hash": "9b14c9ed38b0fb25ffb194845b19dc03",
+    "semantic_hash": "9b14c9ed38b0fb25ffb194845b19dc03"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-thinking-cutout.png": {
+    "mtime": 1784176235.7742019,
+    "ast_hash": "826ed3b46958f06542b2355f46126e39",
+    "semantic_hash": "826ed3b46958f06542b2355f46126e39"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-thinking.webp": {
+    "mtime": 1784174327.7094874,
+    "ast_hash": "27774d956fbc5d766c04249eae3436c5",
+    "semantic_hash": "27774d956fbc5d766c04249eae3436c5"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-working-cutout.png": {
+    "mtime": 1784176240.3399346,
+    "ast_hash": "ee6fc3b6d430f8d41eec7834a66f9c4a",
+    "semantic_hash": "ee6fc3b6d430f8d41eec7834a66f9c4a"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\characters\\usagi-working.jpg": {
+    "mtime": 1784174373.3221478,
+    "ast_hash": "2b894319f346b02c4053489478af1682",
+    "semantic_hash": "2b894319f346b02c4053489478af1682"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\carrot.svg": {
+    "mtime": 1783502062.325709,
+    "ast_hash": "42257b8b562f2b0ed8aaad57d7d466a1",
+    "semantic_hash": "42257b8b562f2b0ed8aaad57d7d466a1"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\cloud.svg": {
+    "mtime": 1783502062.3267143,
+    "ast_hash": "c6d153f5c2b7d7bdb90f423c6d16689d",
+    "semantic_hash": "c6d153f5c2b7d7bdb90f423c6d16689d"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\flower.svg": {
+    "mtime": 1783502062.324709,
+    "ast_hash": "b144b56525f6fbea0098a2c3a0fd3542",
+    "semantic_hash": "b144b56525f6fbea0098a2c3a0fd3542"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\heart.svg": {
+    "mtime": 1783502062.3267143,
+    "ast_hash": "b7b4a179fabdf37b89ffca9a8802c286",
+    "semantic_hash": "b7b4a179fabdf37b89ffca9a8802c286"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\paw.svg": {
+    "mtime": 1783502062.325709,
+    "ast_hash": "cd1d349c6750221797d521e016bb0a74",
+    "semantic_hash": "cd1d349c6750221797d521e016bb0a74"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\sparkle.svg": {
+    "mtime": 1783502062.325709,
+    "ast_hash": "91b51a109af9a3a42fad647ed91a6682",
+    "semantic_hash": "91b51a109af9a3a42fad647ed91a6682"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\star.svg": {
+    "mtime": 1783502062.3267143,
+    "ast_hash": "708a5c7d202effcb05b6b48659602e55",
+    "semantic_hash": "708a5c7d202effcb05b6b48659602e55"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\usagi-motion.mp4": {
+    "mtime": 1783502100.755915,
+    "ast_hash": "e792ea95651a69672aff96f8e0677060",
+    "semantic_hash": "e792ea95651a69672aff96f8e0677060"
+  },
+  "C:\\Users\\Jaygu\\pp\\Usagi\\web\\public\\graphics\\usagi-thinking.mp4": {
+    "mtime": 1783502188.7792823,
+    "ast_hash": "667733871a55466adcae760d434d8dcf",
+    "semantic_hash": "667733871a55466adcae760d434d8dcf"
   }
 }

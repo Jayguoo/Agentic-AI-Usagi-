@@ -14,6 +14,17 @@ export function getStatus() {
   return api("/api/status");
 }
 
+export function getTradeSnapshot() {
+  return api("/api/trades");
+}
+
+export function connectEmail(address, appPassword) {
+  return api("/api/email/connect", {
+    method: "POST",
+    body: JSON.stringify({ address, appPassword }),
+  });
+}
+
 export function sendMessage(message) {
   return api("/api/chat", {
     method: "POST",
