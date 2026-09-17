@@ -7,6 +7,9 @@ import {
   openTarget,
   reminderAction,
   sendMessage,
+  setPlanApproval,
+  setTradeAccount,
+  setTradeReadOnly,
 } from "./api";
 import EmailConnection from "./components/EmailConnection";
 import TradeCompanion from "./components/TradeCompanion";
@@ -14,12 +17,16 @@ import {
   ActivityIcon,
   ApprovalsIcon,
   ChatIcon,
+  MoonIcon,
   RefreshIcon,
   SendIcon,
+  SunIcon,
   ToolsIcon,
 } from "./components/icons";
 
 const PHASES = ["listen", "sniff", "dash", "bonk", "deliver"];
+
+const TRADE_POLL_MS = 15000;
 
 const MORNING_EMAIL_TASK =
   "Morning email triage: check my unread email, identify what is important or urgent, and give me a concise prioritized list. Do not send, delete, or mark anything read.";
@@ -186,6 +193,22 @@ function latestUsagiMessage(messages) {
 export default function App() {
   const { status, error: statusError, refresh } = useStatus();
   const morningRunRef = useRef(false);
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem("usagi.theme");
+      if (saved === "light" || saved === "dark") return saved;
+    } catch {
+      // ignore
+    }
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      return "dark";
+    }
+    return "light";
+  });
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [activeTask, setActiveTask] = useState("What should Usagi handle next?");
@@ -203,6 +226,15 @@ export default function App() {
   const [tradeLoading, setTradeLoading] = useState(false);
   const [tradeError, setTradeError] = useState("");
   const [emailSetupOpen, setEmailSetupOpen] = useState(false);
+  const [connection, setConnection] = useState(() => {
+    const saved = localStorage.getItem("usagi.connection");
+    return ["claude", "codex"].includes(saved) ? saved : "claude";
+  });
+  const [selectedModel, setSelectedModel] = useState(() =>
+    localStorage.getItem(`usagi.model.${connection}`) || ""
+  );
+  const models = status.modelOptions?.[connection] || [];
+  const model = models.some((item) => item.id === selectedModel) ? selectedModel : models[0]?.id || "";
   const [activityItems, setActivityItems] = useState(() => [
     { time: clock(), text: "Native desktop session opened." },
   ]);
@@ -250,23 +282,118 @@ export default function App() {
     [muted]
   );
 
-  const loadTradeData = useCallback(async () => {
-    setTradeLoading(true);
-    setTradeError("");
+  // Only an explicit toggle saves a choice; otherwise the app keeps following the system theme.
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return undefined;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleMediaChange = (e) => {
+      try {
+        if (!localStorage.getItem("usagi.theme")) {
+          setTheme(e.matches ? "dark" : "light");
+        }
+      } catch {
+        setTheme(e.matches ? "dark" : "light");
+      }
+    };
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleMediaChange);
+      return () => mediaQuery.removeEventListener("change", handleMediaChange);
+    }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((current) => {
+      const next = current === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("usagi.theme", next);
+      } catch {
+        // ignore
+      }
+      addActivity(next === "dark" ? "Switched to dark theme." : "Switched to light theme.");
+      playTone("select");
+      return next;
+    });
+  }, [addActivity, playTone]);
+
+  const tradeRequestRef = useRef(false);
+
+  const loadTradeData = useCallback(async ({ silent = false } = {}) => {
+    if (tradeRequestRef.current) return null;
+    tradeRequestRef.current = true;
+    if (!silent) setTradeLoading(true);
     try {
       const data = await getTradeSnapshot();
       setTradeSnapshot(data);
-      addActivity("Trade Companion snapshot refreshed.");
+      setTradeError("");
+      if (!silent) addActivity("Trade Companion snapshot refreshed.");
       return data;
     } catch (error) {
       setTradeError(error.message);
-      addActivity(`Trade Companion error: ${error.message}`);
-      playTone("error");
+      if (!silent) {
+        addActivity(`Trade Companion error: ${error.message}`);
+        playTone("error");
+      }
       return null;
     } finally {
-      setTradeLoading(false);
+      tradeRequestRef.current = false;
+      if (!silent) setTradeLoading(false);
     }
   }, [addActivity, playTone]);
+
+  const changeTradeMode = useCallback(async (readOnly) => {
+    try {
+      const data = await setTradeReadOnly(readOnly);
+      setTradeSnapshot(data.trades);
+      setTradeError("");
+      addActivity(readOnly ? "Trade Companion is read-only again." : "Trade Companion can approve OpenTrade plans.");
+      playTone("select");
+    } catch (error) {
+      setTradeError(error.message);
+      addActivity(`Trade mode error: ${error.message}`);
+      playTone("error");
+    }
+  }, [addActivity, playTone]);
+
+  const changeTradeAccount = useCallback(async (id) => {
+    try {
+      const data = await setTradeAccount(id);
+      setTradeSnapshot(data.trades);
+      setTradeError("");
+      addActivity(`Trade Companion switched to ${data.trades.account?.label || id}.`);
+      playTone("select");
+    } catch (error) {
+      setTradeError(error.message);
+      addActivity(`Account switch error: ${error.message}`);
+      playTone("error");
+    }
+  }, [addActivity, playTone]);
+
+  const decidePlan = useCallback(async (symbol, side, decision) => {
+    try {
+      const data = await setPlanApproval(symbol, side, decision);
+      setTradeSnapshot(data.trades);
+      setTradeError("");
+      addActivity(data.result.detail);
+      playTone("success");
+    } catch (error) {
+      setTradeError(error.message);
+      addActivity(`Plan approval error: ${error.message}`);
+      playTone("error");
+    }
+  }, [addActivity, playTone]);
+
+  useEffect(() => {
+    if (workspace !== "trade") return undefined;
+    const id = window.setInterval(() => void loadTradeData({ silent: true }), TRADE_POLL_MS);
+    return () => window.clearInterval(id);
+  }, [workspace, loadTradeData]);
 
   const seedTask = useCallback(
     (text) => {
@@ -281,7 +408,7 @@ export default function App() {
     async (task, options = {}) => {
       const cleanTask = task.trim();
       const { label = cleanTask, silent = false } = options;
-      if (!cleanTask || busy) return false;
+      if (!cleanTask || busy || !model) return false;
 
       setInput("");
       setHasError(false);
@@ -297,7 +424,7 @@ export default function App() {
       if (!silent) playTone("start");
 
       try {
-        const data = await sendMessage(cleanTask);
+        const data = await sendMessage(cleanTask, connection, model);
         setMessages((items) => [
           ...items,
           { speaker: "Usagi", body: data.answer, time: clock() },
@@ -328,7 +455,7 @@ export default function App() {
         setBusy(false);
       }
     },
-    [addActivity, busy, playTone, refresh]
+    [addActivity, busy, connection, model, playTone, refresh]
   );
 
   const handleSubmit = useCallback(
@@ -357,7 +484,7 @@ export default function App() {
 
   useEffect(() => {
     if (morningRunRef.current) return;
-    if (!status.ready || !status.email?.connected) return;
+    if (!status.ready || !status.email?.connected || !model) return;
 
     const now = new Date();
     const hour = now.getHours();
@@ -383,7 +510,7 @@ export default function App() {
         window.localStorage.removeItem(storageKey);
       }
     });
-  }, [launchTask, status.email?.connected, status.ready]);
+  }, [launchTask, model, status.email?.connected, status.ready]);
 
   const handleConnectEmail = useCallback(
     async (address, appPassword) => {
@@ -481,12 +608,13 @@ export default function App() {
   const openTradeCompanion = () => {
     setWorkspace("trade");
     playTone("select");
-    if (!tradeSnapshot && !tradeLoading) void loadTradeData();
+    void loadTradeData({ silent: Boolean(tradeSnapshot) });
   };
 
   return (
     <main
-      className={`desktop-shell phase-${phase} workspace-${workspace}`}
+      className={`desktop-shell phase-${phase} workspace-${workspace} theme-${theme}`}
+      data-theme={theme}
       role="application"
       aria-label="Usagi desktop agent"
     >
@@ -524,6 +652,15 @@ export default function App() {
           </button>
           <button
             type="button"
+            className="top-action theme-action"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </button>
+          <button
+            type="button"
             className="top-action"
             onClick={() => {
               refresh();
@@ -551,7 +688,11 @@ export default function App() {
           loading={tradeLoading}
           error={tradeError}
           asset={tradeError ? ASSETS.sad : ASSETS.thinking}
+          theme={theme}
           onRefresh={() => void loadTradeData()}
+          onChangeMode={(readOnly) => void changeTradeMode(readOnly)}
+          onChangeAccount={(id) => void changeTradeAccount(id)}
+          onDecidePlan={(symbol, side, decision) => void decidePlan(symbol, side, decision)}
           onOpenProject={() => void handleTool(TOOL_PRESETS[0])}
           onAskUsagi={(prompt) => {
             setWorkspace("agent");
@@ -800,6 +941,33 @@ export default function App() {
         <form className="command-row" onSubmit={handleSubmit}>
           <div className="command-shortcuts">
             <label htmlFor="desktop-task">Ask Usagi</label>
+            <select
+              aria-label="Model connection"
+              value={connection}
+              disabled={busy}
+              onChange={(event) => {
+                setConnection(event.target.value);
+                setSelectedModel(localStorage.getItem(`usagi.model.${event.target.value}`) || "");
+                localStorage.setItem("usagi.connection", event.target.value);
+              }}
+            >
+              <option value="claude">Claude account</option>
+              <option value="codex">Codex account</option>
+            </select>
+            <select
+              aria-label="AI model"
+              value={model}
+              disabled={busy || !models.length}
+              onChange={(event) => {
+                setSelectedModel(event.target.value);
+                localStorage.setItem(`usagi.model.${connection}`, event.target.value);
+              }}
+            >
+              {!models.length && <option value="" disabled>No models available</option>}
+              {models.map((item) => (
+                <option key={item.id} value={item.id}>{item.name}</option>
+              ))}
+            </select>
             <div role="group" aria-label="Quick actions">
               {QUICK_ACTIONS.map((action) => (
                 <button
@@ -830,7 +998,7 @@ export default function App() {
               }}
               placeholder="Type a task or choose a quick action"
             />
-            <button type="submit" disabled={busy || !input.trim()} aria-label="Run task">
+            <button type="submit" disabled={busy || !input.trim() || !model} aria-label="Run task">
               <SendIcon />
               <span>{busy ? "Running" : "Run task"}</span>
             </button>

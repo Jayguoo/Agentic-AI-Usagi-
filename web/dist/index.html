@@ -6,10 +6,22 @@
     <meta name="application-name" content="Usagi Desktop Agent" />
     <title>Usagi</title>
     <link rel="icon" href="/Usagi.ico" />
-    <script type="module" crossorigin src="/assets/index-D6P0lu2k.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Ce1RJt8d.css">
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("usagi.theme");
+          var dark = saved === "dark" || (!saved && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) {
+            document.documentElement.setAttribute("data-theme", "dark");
+            document.documentElement.style.colorScheme = "dark";
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BLTMf7we.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-COXSnKJl.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>

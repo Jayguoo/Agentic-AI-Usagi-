@@ -1,8 +1,10 @@
 import asyncio
 import json
+import logging
 import mimetypes
 import os
 import sys
+import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -20,6 +22,9 @@ PORT = int(os.environ.get("USAGI_PORT", "8765"))
 
 # If a production build exists, serve from dist/ instead of raw web/
 STATIC_DIR = DIST_DIR if (DIST_DIR / "index.html").exists() else WEB_DIR
+
+TRADE_REVIEW_INTERVAL_SECONDS = 60
+TRADE_REVIEW_WAKE = threading.Event()
 
 
 def json_response(handler: BaseHTTPRequestHandler, status: int, data: dict) -> None:
@@ -63,11 +68,23 @@ def status_payload() -> dict:
         "scheduledReminders": len([r for r in reminders if r.get("status") == "scheduled"]),
         "email": usagi.email_connection_status(),
         "ready": True,
+        "modelOptions": usagi.model_options(),
     }
 
 
 def trade_payload() -> dict:
+    TRADE_REVIEW_WAKE.set()
     return usagi.build_trade_companion_snapshot()
+
+
+def review_trades_forever() -> None:
+    while True:
+        try:
+            asyncio.run(usagi.review_new_trades())
+        except Exception:
+            logging.exception("Trade review pass failed")
+        TRADE_REVIEW_WAKE.wait(TRADE_REVIEW_INTERVAL_SECONDS)
+        TRADE_REVIEW_WAKE.clear()
 
 
 def connect_email_payload(body: dict) -> dict:
@@ -91,6 +108,20 @@ class UsagiHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/trades":
             json_response(self, 200, trade_payload())
+            return
+        if parsed.path == "/api/trades/chart":
+            symbol = urllib.parse.parse_qs(parsed.query).get("symbol", [""])[0]
+            image = usagi.trade_chart_image(symbol)
+            if image is None:
+                json_response(self, 404, {"error": "No TradingView chart has been captured for that symbol."})
+                return
+            body = image.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "image/png")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
             return
         if parsed.path == "/api/actions":
             json_response(self, 200, {"actions": status_payload()["actions"]})
@@ -116,12 +147,51 @@ class UsagiHandler(BaseHTTPRequestHandler):
                     json_response(self, 400, {"error": "Message is empty."})
                     return
                 try:
-                    answer = asyncio.run(usagi.ask_agent(message))
+                    provider = body.get("provider", "default")
+                    if provider not in ("default", "claude", "codex"):
+                        json_response(self, 400, {"error": "Unknown model connection."})
+                        return
+                    selected_model = body.get("model", "")
+                    if not isinstance(selected_model, str):
+                        json_response(self, 400, {"error": "Invalid AI model identifier."})
+                        return
+                    answer = asyncio.run(usagi.ask_agent(message, provider, selected_model))
                     json_response(self, 200, {"answer": answer, "status": status_payload()})
                 except OpenAIError as error:
                     json_response(self, 502, {"error": f"OpenAI API error: {error}"})
                 except Exception as error:
                     json_response(self, 500, {"error": f"{type(error).__name__}: {error}"})
+                return
+
+            if parsed.path == "/api/trades/mode":
+                try:
+                    usagi.set_trade_read_only(body.get("readOnly"))
+                except usagi.TradeWriteError as error:
+                    json_response(self, 400, {"error": str(error)})
+                    return
+                json_response(self, 200, {"trades": trade_payload()})
+                return
+
+            if parsed.path == "/api/trades/account":
+                try:
+                    usagi.set_trade_account(str(body.get("id", "")))
+                except usagi.TradeWriteError as error:
+                    json_response(self, 400, {"error": str(error)})
+                    return
+                json_response(self, 200, {"trades": trade_payload()})
+                return
+
+            if parsed.path == "/api/trades/approval":
+                try:
+                    result = usagi.set_plan_approval(
+                        str(body.get("symbol", "")),
+                        str(body.get("side", "")),
+                        str(body.get("decision", "")),
+                    )
+                except usagi.TradeWriteError as error:
+                    json_response(self, 400, {"error": str(error)})
+                    return
+                json_response(self, 200, {"result": result, "trades": trade_payload()})
                 return
 
             if parsed.path == "/api/approve":
@@ -202,6 +272,7 @@ def start_server() -> None:
     except OSError:
         return
 
+    threading.Thread(target=review_trades_forever, daemon=True).start()
     server.serve_forever()
 
 

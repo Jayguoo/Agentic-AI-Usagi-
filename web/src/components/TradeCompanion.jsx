@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
-import PerformanceGraph from "./PerformanceGraph";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import PerformanceGraph, { chartUrl, tradeReviewText } from "./PerformanceGraph";
 
-const TABS = ["Overview", "Plans", "Portfolio", "Review"];
+const TABS = ["Overview", "Automations", "Portfolio", "Review"];
 
 function money(value, currency = "USD", sign = false) {
   const amount = Number(value || 0);
@@ -9,6 +10,7 @@ function money(value, currency = "USD", sign = false) {
     style: "currency",
     currency,
     minimumFractionDigits: 2,
+    maximumFractionDigits: amount !== 0 && Math.abs(amount) < 0.01 ? 6 : 2,
   }).format(Math.abs(amount));
   if (!sign || amount === 0) return amount < 0 ? `-${formatted}` : formatted;
   return `${amount > 0 ? "+" : "-"}${formatted}`;
@@ -47,7 +49,34 @@ function EmptyState({ children }) {
   return <div className="trade-empty">{children}</div>;
 }
 
-function PlanCard({ plan, featured = false }) {
+function PlanApproval({ plan, onDecidePlan }) {
+  const state = plan.approved
+    ? { label: "APPROVED", className: "is-approved" }
+    : plan.approvalDecision === "reject"
+      ? { label: "REJECTED", className: "is-rejected" }
+      : { label: "NOT APPROVED", className: "" };
+  return (
+    <div className="plan-approval">
+      <div>
+        <b className={state.className}>{state.label}</b>
+        {plan.approvalBlockedReason && <small>Blocked: {plan.approvalBlockedReason}</small>}
+      </div>
+      <div className="plan-approval-actions">
+        <button type="button" onClick={() => onDecidePlan(plan.symbol, plan.side, "approve")} disabled={plan.approved}>
+          Approve
+        </button>
+        <button type="button" onClick={() => onDecidePlan(plan.symbol, plan.side, "reject")} disabled={plan.approvalDecision === "reject"}>
+          Reject
+        </button>
+        <button type="button" onClick={() => onDecidePlan(plan.symbol, plan.side, "clear")} disabled={!plan.approvalDecision}>
+          Clear
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PlanCard({ plan, featured = false, onDecidePlan }) {
   const range = planRange(plan);
   return (
     <article className={`trade-plan-card ${featured ? "is-featured" : ""}`}>
@@ -80,15 +109,22 @@ function PlanCard({ plan, featured = false }) {
           {plan.failureConditions?.[0] || plan.headline}
         </footer>
       )}
+      {onDecidePlan && <PlanApproval plan={plan} onDecidePlan={onDecidePlan} />}
     </article>
   );
 }
 
-function Overview({ snapshot }) {
+function Overview({ snapshot, onDecidePlan, theme }) {
   const leadPlan = snapshot.plans?.[0];
   return (
     <div className="trade-overview-grid">
-      <PerformanceGraph journal={snapshot.journal} currentEquity={snapshot.account.equity} riskLocked={snapshot.risk.locked} />
+      <PerformanceGraph
+        journal={snapshot.journal}
+        currentEquity={snapshot.account.equity}
+        riskLocked={snapshot.risk.locked}
+        watchSymbols={(snapshot.research?.symbols || []).map((row) => row.symbol)}
+        theme={theme}
+      />
       <section className="attention-board">
         <header className="trade-section-heading">
           <span>USAGI'S ATTENTION QUEUE</span>
@@ -136,7 +172,7 @@ function Overview({ snapshot }) {
           <span>NEXT PLAN TO REVIEW</span>
           <strong>{snapshot.plans?.length || 0} total</strong>
         </header>
-        {leadPlan ? <PlanCard plan={leadPlan} featured /> : <EmptyState>No trade plan has been published by OpenTrade.</EmptyState>}
+        {leadPlan ? <PlanCard plan={leadPlan} featured onDecidePlan={onDecidePlan} /> : <EmptyState>No trade plan has been published by OpenTrade.</EmptyState>}
       </section>
 
       <section className="readiness-strip">
@@ -149,16 +185,185 @@ function Overview({ snapshot }) {
   );
 }
 
-function Plans({ snapshot }) {
+function TradingViewCharts({ tradingview }) {
+  const charts = tradingview?.charts || [];
+  const available = charts.filter((chart) => chart.available);
+  return (
+    <section className="research-card tradingview-card" aria-label="TradingView charts">
+      <header className="trade-section-heading">
+        <span>TRADINGVIEW CHARTS{tradingview?.timeframe ? ` · ${tradingview.timeframe}M` : ""}</span>
+        <strong>{tradingview?.generatedAt ? shortTime(tradingview.generatedAt) : "Not run"}</strong>
+      </header>
+      {tradingview?.problem && <p className="tradingview-problem">{tradingview.problem}</p>}
+      {available.length > 0 && (
+        <div className="tradingview-grid">
+          {available.map((chart) => (
+            <figure key={chart.symbol}>
+              <img src={chartUrl(chart)} alt={`${chart.symbol} TradingView chart`} loading="lazy" />
+              <figcaption><strong>{chart.symbol}</strong><small>Captured {shortTime(chart.capturedAt)}</small></figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+      {!available.length && !tradingview?.problem && <EmptyState>No TradingView charts have been captured yet.</EmptyState>}
+      <small className="tradingview-note">Human review only. OpenTrade never trades from these charts.</small>
+    </section>
+  );
+}
+
+const RUN_STATUS = {
+  completed: "Completed",
+  warning: "Completed with warnings",
+  failed: "Some steps failed",
+  running: "Running now",
+  unknown: "No result recorded",
+};
+
+function RoutineCard({ routine }) {
+  const run = routine.lastRun;
+  const status = routine.managedBy ? "Managed in session" : run ? RUN_STATUS[run.status] || run.status : "No run recorded";
+  return (
+    <article className={`routine-card is-${run?.status || "missing"}`}>
+      <header>
+        <div>
+          <span>{routine.managedBy ? "CHECKED DURING THE TRADING SESSION" : routine.scheduledAt ? `RUNS ${routine.scheduledAt} ON WEEKDAYS` : "NO SEPARATE SCHEDULE"}</span>
+          <h3>{routine.label}</h3>
+        </div>
+        <b className={`routine-status is-${run?.status || "missing"}`}>{status}</b>
+      </header>
+      <p>{routine.managedBy
+        ? `Risk checks run inside ${routine.managedBy}.${routine.managedRun ? ` Latest session: ${shortTime(routine.managedRun.startedAt)}; ${routine.managedRun.riskChecks} checks recorded.` : " No session checks recorded yet."}`
+        : run ? `Last run ${shortTime(run.startedAt)}${routine.ageMinutes != null ? ` · ${freshnessAge(routine.ageMinutes)} ago` : ""}` : "No run was found in the available scheduler log."}</p>
+      <ul className="routine-steps" aria-label={`${routine.label} steps`}>
+        {routine.steps.map((step) => <li key={step}>{step}</li>)}
+      </ul>
+      {!routine.managedBy && run?.failures?.length > 0 && (
+        <div className="routine-failures">
+          <span>FAILED IN THIS RUN</span>
+          <ul>{run.failures.map((failure) => <li key={failure}>{failure}</li>)}</ul>
+        </div>
+      )}
+      {!routine.managedBy && run?.warnings?.length > 0 && (
+        <div className="routine-warnings">
+          <span>SKIPPED OR BLOCKED IN THIS RUN</span>
+          <ul>{run.warnings.map((warning) => <li key={warning}>{warning}{routine.resolvedWarnings?.includes(warning) ? " (resolved after this run)" : ""}</li>)}</ul>
+        </div>
+      )}
+      {run?.artifacts?.length > 0 && (
+        <footer>Wrote {run.artifacts.join(", ")}</footer>
+      )}
+    </article>
+  );
+}
+
+function Automations({ snapshot }) {
+  const automations = snapshot.automations || { routines: [], recentRuns: [] };
+  const research = snapshot.research || {};
+  const leaders = research.leaderWatch || {};
   return (
     <section className="trade-panel-page">
       <header className="panel-page-heading">
-        <div><span>WATCHLIST + VALIDATION</span><h2>Trade plans</h2></div>
-        <p>Plans are observations only. Approval and execution remain outside Usagi.</p>
+        <div><span>AUTOMATION RUNS + RESEARCH</span><h2>Automations</h2></div>
+        <p>What OpenTrade ran on its own, whether it went through, and what the pre-market research found.</p>
       </header>
-      <div className="trade-plan-grid">
-        {snapshot.plans?.length ? snapshot.plans.map((plan) => <PlanCard key={`${plan.symbol}-${plan.side}`} plan={plan} />) : <EmptyState>No plan candidates are available.</EmptyState>}
+
+      {automations.notifications && (
+        <p role="status">Windows notifications: {automations.notifications.ok ? "last delivery accepted" : "delivery failed"}
+          {automations.notifications.generated_at ? ` · ${shortTime(automations.notifications.generated_at)}` : ""}
+          {automations.notifications.error ? ` · ${automations.notifications.error}` : ""}</p>
+      )}
+
+      <div className="routine-grid">
+        {automations.routines?.length
+          ? automations.routines.map((routine) => <RoutineCard key={routine.name} routine={routine} />)
+          : <EmptyState>No scheduled routines were found in OpenTrade.</EmptyState>}
       </div>
+
+      <section className="research-card">
+        <header className="trade-section-heading">
+          <span>PRE-MARKET RESEARCH</span>
+          <strong>{research.generatedAt ? shortTime(research.generatedAt) : "Not available"}</strong>
+        </header>
+        {research.generatedAt ? (
+          <div className="research-body">
+            <div className="research-regime">
+              <div><span>MARKET READ</span><strong>{research.regime?.state}</strong><small>{percent(research.regime?.score)} confidence</small></div>
+              <ul>
+                {[...(research.regime?.notes || []), ...(research.regime?.macroNotes || [])].map((note) => <li key={note}>{note}</li>)}
+              </ul>
+            </div>
+
+            <div className="research-providers" aria-label="Research providers">
+              {research.providers?.map((provider) => (
+                <span key={provider.provider} className={`provider-chip is-${provider.state}`}>
+                  <b>{provider.provider}</b>
+                  <small>{provider.detail || provider.state}</small>
+                </span>
+              ))}
+            </div>
+
+            {research.riskFlags?.length > 0 && (
+              <div className="research-flags">
+                <span>RISK FLAGS</span>
+                <ul>{research.riskFlags.map((flag) => <li key={flag}>{flag}</li>)}</ul>
+              </div>
+            )}
+
+            <div className="research-symbols">
+              {research.symbols?.length ? research.symbols.map((symbol) => (
+                <article key={symbol.symbol}>
+                  <header><strong>{symbol.symbol}</strong><small>{symbol.newsCount} news · {symbol.filingCount} filings</small></header>
+                  {symbol.headlines.length ? (
+                    <ul>
+                      {symbol.headlines.map((headline) => (
+                        <li key={headline.title}>
+                          {headline.url
+                            ? <a href={headline.url} target="_blank" rel="noreferrer">{headline.title}</a>
+                            : headline.title}
+                          <i>{headline.source}</i>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : <p>No headlines were collected.</p>}
+                </article>
+              )) : <EmptyState>Research collected no symbol context.</EmptyState>}
+            </div>
+
+            {leaders.symbols?.length > 0 && (
+              <div className="research-leaders">
+                <span>LEADER WATCH · {leaders.person || "Disclosures"}{leaders.researchOnly ? " · RESEARCH ONLY" : ""}</span>
+                <ul>
+                  {leaders.symbols.map((symbol) => (
+                    <li key={symbol.symbol}>
+                      <strong>{symbol.symbol}</strong> {symbol.actions.join(", ")} · signal {symbol.score.toFixed(2)}
+                      {symbol.headlines[0] && (symbol.headlines[0].url
+                        ? <a href={symbol.headlines[0].url} target="_blank" rel="noreferrer">{symbol.headlines[0].title}</a>
+                        : <span>{symbol.headlines[0].title}</span>)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : <EmptyState>OpenTrade has not published a market research snapshot.</EmptyState>}
+      </section>
+
+      <TradingViewCharts tradingview={snapshot.tradingview} />
+
+      <section className="run-history">
+        <header className="trade-section-heading"><span>RECENT AUTOMATION RUNS</span><strong>{automations.recentRuns?.length || 0}</strong></header>
+        <div className="run-history-list">
+          {automations.recentRuns?.length ? automations.recentRuns.map((run, index) => (
+            <div className={`run-row is-${run.status}`} key={`${run.name}-${run.startedAt}-${index}`}>
+              <i />
+              <time>{shortTime(run.startedAt)}</time>
+              <strong>{run.name}</strong>
+              <span>{RUN_STATUS[run.status] || run.status}</span>
+              <small>{run.failures?.[0] || run.warnings?.[0] || (run.artifacts?.length ? `wrote ${run.artifacts.length} file${run.artifacts.length === 1 ? "" : "s"}` : "")}</small>
+            </div>
+          )) : <EmptyState>No scheduler runs were recorded yet.</EmptyState>}
+        </div>
+      </section>
     </section>
   );
 }
@@ -217,7 +422,194 @@ function Portfolio({ snapshot }) {
   );
 }
 
+function AuditDetail({ decision, onClose }) {
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
+
+  const title = decision.title || decision.action;
+  return (
+    <div className="audit-detail-layer" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="audit-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="audit-detail-title">
+        <header>
+          <div>
+            <span>AGENT AUDIT / {decision.mode || "DECISION"}</span>
+            <h2 id="audit-detail-title">{title}</h2>
+          </div>
+          <button type="button" aria-label="Close audit details" onClick={onClose} autoFocus>×</button>
+        </header>
+        <div className={`audit-detail-outcome ${decision.ok ? "is-ok" : "is-blocked"}`}>
+          <i />
+          <div><span>{decision.ok ? "COMPLETED" : "NO ACTION TAKEN"}</span><time>{shortTime(decision.time)}</time></div>
+        </div>
+        <section className="audit-detail-reason">
+          <span>SPECIFIC REASON</span>
+          <p>{decision.detail}</p>
+        </section>
+        <p className="audit-detail-explanation">{decision.explanation || "OpenTrade did not record a longer explanation for this decision."}</p>
+        <dl className="audit-evidence">
+          {(decision.evidence || []).map((item, index) => (
+            <div key={`${item.label}-${index}`}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+          ))}
+        </dl>
+        <footer>
+          <small>{decision.basis || "Reported from OpenTrade's decision log."}</small>
+          <span>Recorded action: {decision.action}</span>
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function price(value) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(Number(value || 0));
+}
+
+function heldTime(start, end) {
+  const seconds = Math.round((new Date(end) - new Date(start)) / 1000);
+  if (!Number.isFinite(seconds) || seconds < 0) return null;
+  if (seconds < 90) return `${seconds}s`;
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 90) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 48) return `${hours}h ${minutes % 60}m`;
+  return `${Math.floor(hours / 24)}d ${hours % 24}h`;
+}
+
+function TradeReviewPreview({ trade }) {
+  const { label, text } = tradeReviewText(trade);
+  return (
+    <span className={`trade-review is-${trade.review.status} ${trade.pnl > 0 ? "is-profit" : "is-loss"}`}>
+      <b>{label}{trade.review.sentiment && <i className={`sentiment-stance is-${trade.review.sentiment.stance}`}>Public: {trade.review.sentiment.stance}</i>}</b>
+      <em>{text}</em>
+    </span>
+  );
+}
+
+function TradeDetail({ trade, chart, onClose }) {
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
+
+  const { review } = trade;
+  const held = heldTime(trade.enteredAt, trade.exitedAt);
+  const facts = [
+    trade.enteredAt && { label: "Entry", value: `${shortTime(trade.enteredAt)}${trade.entryPrice ? ` · ${price(trade.entryPrice)}` : ""}` },
+    trade.exitedAt && { label: "Exit", value: `${shortTime(trade.exitedAt)}${trade.exitPrice ? ` · ${price(trade.exitPrice)}` : ""}` },
+    held && { label: "Held", value: held },
+    trade.quantity > 0 && { label: "Quantity", value: `${trade.quantity} shares` },
+    trade.entryPrice > 0 && { label: "Price move", value: `${price(trade.exitPrice - trade.entryPrice)} per share` },
+    trade.feesAllocated !== undefined && { label: "Fees", value: trade.feesAllocated ? "Included in P&L" : "Not allocated; P&L is before fees" },
+    ...(trade.evidence || []),
+  ].filter(Boolean);
+
+  return createPortal(
+    <div className="audit-detail-layer" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="audit-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="trade-detail-title">
+        <header>
+          <div>
+            <span>TRADE JOURNAL / {trade.strategy || "CLOSED TRADE"}</span>
+            <h2 id="trade-detail-title">{trade.symbol} {trade.side} trade</h2>
+          </div>
+          <button type="button" aria-label="Close trade details" onClick={onClose} autoFocus>×</button>
+        </header>
+        <div className={`audit-detail-outcome ${trade.pnl >= 0 ? "is-ok" : "is-blocked"}`}>
+          <i />
+          <div><span>{String(trade.outcome).replaceAll("_", " ")} · {money(trade.pnl, "USD", true)} · {percent(trade.returnPct, 3, true)}</span><time>{shortTime(trade.exitedAt)}</time></div>
+        </div>
+        {review && (
+          <section className={`audit-detail-reason trade-review-reason is-${review.status} ${trade.pnl > 0 ? "is-profit" : "is-loss"}`} aria-label={trade.pnl > 0 ? "Why this trade made money" : "Why this trade lost"}>
+            <span>{tradeReviewText(trade).label} · USAGI RESEARCH</span>
+            <p>{tradeReviewText(trade).text}</p>
+          </section>
+        )}
+        {review?.sentiment && (
+          <section className="trade-sentiment" aria-label="Public sentiment">
+            <span>PUBLIC SENTIMENT <i className={`sentiment-stance is-${review.sentiment.stance}`}>{review.sentiment.stance}</i></span>
+            <p>{review.sentiment.summary}</p>
+          </section>
+        )}
+        {review?.psychology && (
+          <section className="trade-sentiment trade-psychology" aria-label="Trade psychology">
+            <span>PSYCHOLOGY</span>
+            <p><strong>Market mood:</strong> {review.psychology.market}</p>
+            <p><strong>Decision behavior:</strong> {review.psychology.decision}</p>
+            {review.psychology.biases?.length > 0 && (
+              <ul aria-label="Behavioral biases">
+                {review.psychology.biases.map((bias) => <li key={bias}>{bias}</li>)}
+              </ul>
+            )}
+          </section>
+        )}
+        {review?.status === "done" && !review.psychology && (
+          <p className="audit-detail-explanation">Sentiment and psychology research is queued for this trade.</p>
+        )}
+        {review?.lesson && <p className="audit-detail-explanation"><strong>Next time:</strong> {review.lesson}</p>}
+        {review?.sources?.length > 0 && (
+          <section className="trade-detail-list">
+            <span>SOURCES</span>
+            <ul>
+              {review.sources.map((source) => (
+                <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title || source.url}</a></li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {review?.status === "done" && !review.sources?.length && (
+          <p className="audit-detail-explanation">No web source covered this trade's window, so the explanation rests on the trade and order evidence.</p>
+        )}
+        {review?.queries?.length > 0 && (
+          <section className="trade-detail-list">
+            <span>SEARCHED</span>
+            <ul>{review.queries.map((query) => <li key={query}>{query}</li>)}</ul>
+          </section>
+        )}
+        {review?.warnings?.length > 0 && (
+          <section className="trade-detail-list">
+            <span>RESEARCH WARNINGS</span>
+            <ul>{review.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>
+          </section>
+        )}
+        {chart && (
+          <section className="trade-detail-list trade-chart">
+            <span>TRADINGVIEW CHART</span>
+            <img src={chartUrl(chart)} alt={`${trade.symbol} TradingView chart`} />
+            <small>Latest capture, {shortTime(chart.capturedAt)}. It shows the chart at that time, not when this trade happened.</small>
+          </section>
+        )}
+        <dl className="audit-evidence">
+          {facts.map((item, index) => (
+            <div key={`${item.label}-${index}`}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+          ))}
+        </dl>
+        {trade.notes?.length > 0 && (
+          <section className="trade-detail-list">
+            <span>OPENTRADE NOTES</span>
+            <ul>{trade.notes.map((note) => <li key={note}>{note}</li>)}</ul>
+          </section>
+        )}
+        <footer>
+          <small>Reconstructed from OpenTrade's broker fills and decision log.</small>
+          <span>{review?.reviewedAt ? `Researched ${shortTime(review.reviewedAt)}` : "Read only"}</span>
+        </footer>
+      </section>
+    </div>,
+    document.body
+  );
+}
+
 function Review({ snapshot }) {
+  const [selectedDecision, setSelectedDecision] = useState(null);
+  const [selectedTradeId, setSelectedTradeId] = useState(null);
+  const selectedTrade = snapshot.journal?.find((trade, index) => (trade.id || `${trade.symbol}-${trade.exitedAt}-${index}`) === selectedTradeId);
   return (
     <div className="review-grid">
       <section className="decision-trail">
@@ -225,9 +617,11 @@ function Review({ snapshot }) {
         <div className="decision-list">
           {snapshot.decisions?.length ? snapshot.decisions.map((decision, index) => (
             <article key={`${decision.time}-${index}`}>
-              <i className={decision.ok ? "is-ok" : "is-blocked"} />
-              <time>{shortTime(decision.time)}</time>
-              <div><strong>{decision.action}</strong><p>{decision.detail}</p><small>{decision.mode}</small></div>
+              <button type="button" className="audit-decision-button" aria-label={`Open details: ${decision.title || decision.action}`} onClick={() => setSelectedDecision(decision)}>
+                <i className={decision.ok ? "is-ok" : "is-blocked"} />
+                <time>{shortTime(decision.time)}</time>
+                <div><strong>{decision.title || decision.action}</strong><p>{decision.detail}</p><small>{decision.mode} · Click for full reason</small></div>
+              </button>
             </article>
           )) : <EmptyState>No recent decisions were recorded.</EmptyState>}
         </div>
@@ -236,13 +630,22 @@ function Review({ snapshot }) {
       <section className="journal-card">
         <header className="panel-page-heading compact"><div><span>FEEDBACK LOOP</span><h2>Trade journal</h2></div></header>
         <div className="journal-list">
-          {snapshot.journal?.length ? snapshot.journal.map((trade, index) => (
-            <article key={`${trade.symbol}-${trade.exitedAt}-${index}`}>
-              <div><strong>{trade.symbol}</strong><small>{trade.strategy || trade.side}</small></div>
-              <div><strong className={trade.pnl >= 0 ? "is-positive" : "is-negative"}>{money(trade.pnl, "USD", true)}</strong><small>{percent(trade.returnPct, 2, true)}</small></div>
-              <span>{String(trade.outcome).replaceAll("_", " ")}</span>
-            </article>
-          )) : <EmptyState>No journal entries are available.</EmptyState>}
+          {snapshot.journal?.length ? snapshot.journal.map((trade, index) => {
+            const key = trade.id || `${trade.symbol}-${trade.exitedAt}-${index}`;
+            return (
+              <article key={key}>
+                <button type="button" className="journal-trade-button" aria-label={`Open trade details: ${trade.symbol} ${trade.outcome} ${money(trade.pnl, "USD", true)}`} onClick={() => setSelectedTradeId(key)}>
+                  <div><strong>{trade.symbol}</strong><small>{trade.strategy || trade.side}</small></div>
+                  <div><strong className={trade.pnl >= 0 ? "is-positive" : "is-negative"}>{money(trade.pnl, "USD", true)}</strong><small>{percent(trade.returnPct, 2, true)}</small></div>
+                  <span>{String(trade.outcome).replaceAll("_", " ")}</span>
+                  {trade.entryPrice > 0 && (
+                    <small className="journal-fill">{trade.side} · {shortTime(trade.enteredAt)} → {shortTime(trade.exitedAt)} · {money(trade.entryPrice)} → {money(trade.exitPrice)} · Click for details</small>
+                  )}
+                  {trade.review && <TradeReviewPreview trade={trade} />}
+                </button>
+              </article>
+            );
+          }) : <EmptyState>No journal entries are available.</EmptyState>}
         </div>
       </section>
 
@@ -269,12 +672,24 @@ function Review({ snapshot }) {
           ))}
         </div>
       </section>
+      {selectedDecision && <AuditDetail decision={selectedDecision} onClose={() => setSelectedDecision(null)} />}
+      {selectedTrade && (
+        <TradeDetail
+          trade={selectedTrade}
+          chart={snapshot.tradingview?.charts?.find((chart) => chart.symbol === selectedTrade.symbol && chart.available)}
+          onClose={() => setSelectedTradeId(null)}
+        />
+      )}
     </div>
   );
 }
 
-export default function TradeCompanion({ snapshot, loading, error, onRefresh, onOpenProject, onAskUsagi, asset }) {
+export default function TradeCompanion({ snapshot, loading, error, onRefresh, onOpenProject, onAskUsagi, onChangeMode, onChangeAccount, onDecidePlan, asset, theme = "light" }) {
   const [tab, setTab] = useState("Overview");
+  const [confirmingWrite, setConfirmingWrite] = useState(false);
+  const readOnly = snapshot?.readOnly !== false;
+  const accounts = snapshot?.accounts || [];
+  const decidePlan = !readOnly && onDecidePlan ? onDecidePlan : null;
   const companionRead = useMemo(() => {
     if (error) return "I couldn't read the latest OpenTrade snapshot. Your trading files were not changed.";
     if (!snapshot?.connected) return "OpenTrade is not connected. I will stay safely in observation mode.";
@@ -292,7 +707,38 @@ export default function TradeCompanion({ snapshot, loading, error, onRefresh, on
           <p>Usagi reads the desk, surfaces risk, and explains the plan. It cannot trade.</p>
         </div>
         <div className="trade-header-actions">
-          <span className="read-only-pill">READ ONLY</span>
+          {accounts.length > 1 && (
+            <label className="account-picker">
+              <span>ACCOUNT</span>
+              <select
+                value={snapshot.accountId || "primary"}
+                onChange={(event) => onChangeAccount(event.target.value)}
+                aria-label="Trading account"
+              >
+                {accounts.map((account) => (
+                  <option key={account.id} value={account.id}>{account.label}</option>
+                ))}
+              </select>
+            </label>
+          )}
+          {confirmingWrite ? (
+            <span className="write-confirm" role="group" aria-label="Confirm plan approvals">
+              <b>Allow plan approvals?</b>
+              <button type="button" onClick={() => { setConfirmingWrite(false); onChangeMode(false); }}>Enable</button>
+              <button type="button" onClick={() => setConfirmingWrite(false)}>Cancel</button>
+            </span>
+          ) : (
+            <button
+              type="button"
+              className={`read-only-pill ${readOnly ? "" : "is-write"}`}
+              aria-pressed={!readOnly}
+              onClick={() => (readOnly ? setConfirmingWrite(true) : onChangeMode(true))}
+              disabled={!onChangeMode || (readOnly && snapshot?.paperOnly === false)}
+              title={snapshot?.paperOnly === false ? "OpenTrade is not on the paper endpoint" : undefined}
+            >
+              {readOnly ? "READ ONLY" : "PLAN APPROVALS ON"}
+            </button>
+          )}
           <button type="button" onClick={onOpenProject}>Open OpenTrade</button>
           <button type="button" className="trade-refresh" onClick={onRefresh} disabled={loading} aria-label="Refresh trade data">{loading ? "Reading…" : "Refresh"}</button>
         </div>
@@ -310,13 +756,26 @@ export default function TradeCompanion({ snapshot, loading, error, onRefresh, on
               <img src={asset} alt="Usagi trading companion" draggable="false" />
             </div>
             <div className="companion-note"><i /> <p>{companionRead}</p></div>
-            <div className="companion-status">
+            {snapshot.account?.label && (
+            <div className="companion-account">
+              <span>ACCOUNT</span>
+              <strong>{snapshot.account.label}</strong>
+              <small>{snapshot.paperOnly === false ? "Live endpoint" : "Paper"}</small>
+            </div>
+          )}
+          {snapshot.accounts?.find((account) => account.id === snapshot.accountId)?.sharedWithPrimary?.length > 0 && (
+            <p className="companion-shared">
+              Shares the primary account's {snapshot.accounts.find((account) => account.id === snapshot.accountId).sharedWithPrimary.join(", ")} file
+              {snapshot.accounts.find((account) => account.id === snapshot.accountId).sharedWithPrimary.length === 1 ? "" : "s"}.
+            </p>
+          )}
+          <div className="companion-status">
               <div><span>MARKET</span><strong>{snapshot.market.isOpen ? "Open" : "Closed"}</strong></div>
               <div><span>RISK</span><strong>{snapshot.risk.locked ? "Locked" : "Clear"}</strong></div>
               <div><span>SYNC</span><strong>{freshnessAge(snapshot.freshness.ageMinutes)}</strong></div>
             </div>
             <button type="button" className="ask-trade-button" onClick={() => onAskUsagi("Explain today's OpenTrade readiness, highest-priority risk, and the next plan I should review. Do not execute or modify anything.")}>Ask Usagi to explain</button>
-            <small>OpenTrade remains the execution boundary.</small>
+            <small>{readOnly ? "OpenTrade remains the execution boundary." : "Approvals only. OpenTrade still places every order."}</small>
           </aside>
 
           <section className="trade-desk">
@@ -333,8 +792,8 @@ export default function TradeCompanion({ snapshot, loading, error, onRefresh, on
             </nav>
 
             <div className="trade-panel">
-              {tab === "Overview" && <Overview snapshot={snapshot} />}
-              {tab === "Plans" && <Plans snapshot={snapshot} />}
+              {tab === "Overview" && <Overview snapshot={snapshot} onDecidePlan={decidePlan} theme={theme} />}
+              {tab === "Automations" && <Automations snapshot={snapshot} />}
               {tab === "Portfolio" && <Portfolio snapshot={snapshot} />}
               {tab === "Review" && <Review snapshot={snapshot} />}
             </div>

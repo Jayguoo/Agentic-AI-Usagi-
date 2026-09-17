@@ -18,6 +18,27 @@ export function getTradeSnapshot() {
   return api("/api/trades");
 }
 
+export function setTradeAccount(id) {
+  return api("/api/trades/account", {
+    method: "POST",
+    body: JSON.stringify({ id }),
+  });
+}
+
+export function setTradeReadOnly(readOnly) {
+  return api("/api/trades/mode", {
+    method: "POST",
+    body: JSON.stringify({ readOnly }),
+  });
+}
+
+export function setPlanApproval(symbol, side, decision) {
+  return api("/api/trades/approval", {
+    method: "POST",
+    body: JSON.stringify({ symbol, side, decision }),
+  });
+}
+
 export function connectEmail(address, appPassword) {
   return api("/api/email/connect", {
     method: "POST",
@@ -25,10 +46,10 @@ export function connectEmail(address, appPassword) {
   });
 }
 
-export function sendMessage(message) {
+export function sendMessage(message, provider = "default", model = "") {
   return api("/api/chat", {
     method: "POST",
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, provider, model }),
   });
 }
 

@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-theme="light"] {
   color-scheme: light;
   font-family: "Segoe UI", Arial, sans-serif;
   font-synthesis: none;
@@ -16,6 +17,38 @@
   --mono: "Cascadia Mono", Consolas, monospace;
   --display: "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
   --ease-hop: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #1c1a17;
+  --surface: #24211d;
+  --surface-muted: #2e2924;
+  --ink: #f2ede4;
+  --muted: #a69e91;
+  --line: #3d3730;
+  --yellow: #f2c84b;
+  --yellow-soft: #4a3d1c;
+  --pink: #f2aab2;
+  --green: #8ec473;
+  --red: #e06c78;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #1c1a17;
+    --surface: #24211d;
+    --surface-muted: #2e2924;
+    --ink: #f2ede4;
+    --muted: #a69e91;
+    --line: #3d3730;
+    --yellow: #f2c84b;
+    --yellow-soft: #4a3d1c;
+    --pink: #f2aab2;
+    --green: #8ec473;
+    --red: #e06c78;
+  }
 }
 
 * {

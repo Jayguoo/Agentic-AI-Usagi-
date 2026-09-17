@@ -18,12 +18,29 @@ import webview
 APP_ID = "Jay.Usagi.Agent"
 ROOT = Path(__file__).resolve().parent
 ICON_FILE = ROOT / "Usagi.ico"
-BG = "#f3eee2"
+BG_LIGHT = "#f3eee2"
+BG_DARK = "#1c1a17"
+BG = BG_LIGHT
 
 try:
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 except Exception:
     pass
+
+
+def get_window_background() -> str:
+    try:
+        import winreg
+        with winreg.OpenKey(
+            winreg.HKEY_CURRENT_USER,
+            r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+        ) as key:
+            value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
+            if value == 0:
+                return BG_DARK
+    except Exception:
+        pass
+    return BG_LIGHT
 
 
 def load_web_module():
@@ -103,6 +120,16 @@ def ensure_local_ollama(base_url: str, timeout: float = 12.0) -> bool:
     return False
 
 
+def enable_editing_menu(window) -> None:
+    from System import Action
+
+    def configure() -> None:
+        settings = window.native.webview.CoreWebView2.Settings
+        settings.AreDefaultContextMenusEnabled = True
+
+    window.native.Invoke(Action(configure))
+
+
 def main() -> None:
     web = load_web_module()
     url = f"http://{web.HOST}:{web.PORT}"
@@ -122,10 +149,12 @@ def main() -> None:
         width=1280,
         height=820,
         min_size=(1100, 700),
-        background_color=BG,
+        background_color=get_window_background(),
+        text_select=True,
     )
     window.events.shown += lambda: apply_window_icon("Usagi")
-    webview.start()
+    window.events.loaded += lambda: enable_editing_menu(window)
+    webview.start(gui="edgechromium")
 
 
 if __name__ == "__main__":
