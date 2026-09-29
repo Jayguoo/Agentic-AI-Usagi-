@@ -21,6 +21,11 @@ function percent(value, digits = 1, signed = false) {
   return `${signed && amount > 0 ? "+" : ""}${amount.toFixed(digits)}%`;
 }
 
+function regimeScore(value) {
+  const score = Math.max(-1, Math.min(1, Number(value || 0)));
+  return `${score > 0 ? "+" : ""}${score.toFixed(2)}`;
+}
+
 function shortTime(value) {
   if (!value) return "Not available";
   const date = new Date(value);
@@ -146,8 +151,8 @@ function Overview({ snapshot, onDecidePlan, theme }) {
           <strong>{snapshot.market.regime}</strong>
         </header>
         <div className="regime-score">
-          <div><span style={{ width: `${Math.max(4, snapshot.market.score * 100)}%` }} /></div>
-          <small>Regime confidence {percent(snapshot.market.score)}</small>
+          <div><span style={{ width: `${Math.max(4, (Number(regimeScore(snapshot.market.score)) + 1) * 50)}%` }} /></div>
+          <small>Regime score {regimeScore(snapshot.market.score)} (−1 to +1)</small>
         </div>
         <div className="benchmark-list">
           {snapshot.market.benchmarks?.length ? snapshot.market.benchmarks.map((row) => {
@@ -287,7 +292,7 @@ function Automations({ snapshot }) {
         {research.generatedAt ? (
           <div className="research-body">
             <div className="research-regime">
-              <div><span>MARKET READ</span><strong>{research.regime?.state}</strong><small>{percent(research.regime?.score)} confidence</small></div>
+              <div><span>MARKET READ</span><strong>{research.regime?.state}</strong><small>score {regimeScore(research.regime?.score)}</small></div>
               <ul>
                 {[...(research.regime?.notes || []), ...(research.regime?.macroNotes || [])].map((note) => <li key={note}>{note}</li>)}
               </ul>
@@ -782,7 +787,7 @@ export default function TradeCompanion({ snapshot, loading, error, onRefresh, on
             <div className="trade-metric-tape">
               <div><span>ACCOUNT EQUITY</span><strong>{money(snapshot.account.equity, snapshot.account.currency)}</strong><small>{snapshot.account.status}</small></div>
               <div><span>BUYING POWER</span><strong>{money(snapshot.account.buyingPower, snapshot.account.currency)}</strong><small>Paper account</small></div>
-              <div><span>MARKET REGIME</span><strong>{snapshot.market.regime}</strong><small>{percent(snapshot.market.score)} confidence</small></div>
+              <div><span>MARKET REGIME</span><strong>{snapshot.market.regime}</strong><small>score {regimeScore(snapshot.market.score)}</small></div>
               <div className={snapshot.risk.locked ? "is-danger" : ""}><span>RISK ENVELOPE</span><strong>{snapshot.risk.locked ? "LOCKED" : "CLEAR"}</strong><small>{snapshot.risk.locked ? String(snapshot.risk.reason).replaceAll("_", " ") : "No lock detected"}</small></div>
               <div><span>OPEN EXPOSURE</span><strong>{snapshot.positions.length} / {snapshot.orders.length}</strong><small>positions / orders</small></div>
             </div>
