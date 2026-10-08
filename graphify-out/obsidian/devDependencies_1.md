@@ -1,23 +1,21 @@
 ---
-source_file: "web/package.json"
+source_file: "agent-ui/fable/package.json"
 type: "code"
-community: "Desktop Build System"
-location: "L16"
+community: "Web Dev Dependencies"
+location: "L18"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_Dev_Dependencies
 ---
 
 # devDependencies
 
 ## Connections
-- [[@testing-libraryjest-dom]] - `contains` [EXTRACTED]
-- [[@testing-libraryreact]] - `contains` [EXTRACTED]
-- [[@vitejsplugin-react_1]] - `contains` [EXTRACTED]
-- [[jsdom]] - `contains` [EXTRACTED]
-- [[package.json_1]] - `contains` [EXTRACTED]
-- [[vite_1]] - `contains` [EXTRACTED]
-- [[vitest_1]] - `contains` [EXTRACTED]
+- [[@playwrighttest_1]] - `contains` [EXTRACTED]
+- [[@vitejsplugin-react_2]] - `contains` [EXTRACTED]
+- [[fablepackage.json]] - `contains` [EXTRACTED]
+- [[vite_3]] - `contains` [EXTRACTED]
+- [[vitest_3]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Dev_Dependencies

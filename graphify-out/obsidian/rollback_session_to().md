@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L1038"
+community: "Stdlib Dependencies"
+location: "L1758"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Stdlib_Dependencies
 ---
 
 # rollback_session_to()
@@ -16,4 +16,4 @@ tags:
 - [[ask_agent()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/Stdlib_Dependencies

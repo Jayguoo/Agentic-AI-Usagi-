@@ -1,17 +1,19 @@
 ---
 source_file: "agent-ui/fable/package.json"
-type: "code"
-community: "Fable Build System"
+type: "concept"
+community: "Fable Package Manifest"
 location: "L19"
 tags:
-  - graphify/code
+  - graphify/concept
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Fable_Package_Manifest
 ---
 
 # @playwright/test
 
 ## Connections
-- [[devDependencies]] - `contains` [EXTRACTED]
+- [[app.spec.js]] - `imports_from` [EXTRACTED]
+- [[fablepackage.json]] - `imports` [EXTRACTED]
+- [[playwright.config.js]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/concept #graphify/EXTRACTED #community/Fable_Package_Manifest

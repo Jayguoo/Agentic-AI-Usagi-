@@ -1,19 +1,21 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "OpenTrade Read-Only Bridge"
-location: "L447"
+community: "Stdlib Dependencies"
+location: "L637"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/OpenTrade_Read-Only_Bridge
+  - community/Stdlib_Dependencies
 ---
 
 # read_opentrade_file()
 
 ## Connections
-- [[Read one safe text file from Jay's OpenTrade project without modifying or execut]] - `rationale_for` [EXTRACTED]
+- [[Read one safe text file from Jay's OpenTrade project without modifying or…]] - `rationale_for` [EXTRACTED]
+- [[build_agent()]] - `indirect_call` [INFERRED]
+- [[function_tool]] - `references` [EXTRACTED]
 - [[read_opentrade_text()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/OpenTrade_Read-Only_Bridge
+#graphify/code #graphify/EXTRACTED #community/Stdlib_Dependencies

@@ -12,8 +12,9 @@ tags:
 # useStatus()
 
 ## Connections
-- [[App()_1]] - `calls` [EXTRACTED]
-- [[App.jsx_1]] - `imports` [EXTRACTED]
+- [[App()]] - `calls` [EXTRACTED]
+- [[getStatus()]] - `calls` [EXTRACTED]
 - [[useStatus.js]] - `contains` [EXTRACTED]
+- [[websrcApp.jsx]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L457"
+community: "Agent Tools"
+location: "L653"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Agent_Tools
 ---
 
 # List staged actions waiting for Jay's approval.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[list_pending_actions()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/Agent_Tools

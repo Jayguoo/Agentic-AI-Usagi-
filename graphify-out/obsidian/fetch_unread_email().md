@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L773"
+community: "Stdlib Dependencies"
+location: "L1445"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Stdlib_Dependencies
 ---
 
 # fetch_unread_email()
@@ -18,4 +18,4 @@ tags:
 - [[get_briefing_data()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/Stdlib_Dependencies

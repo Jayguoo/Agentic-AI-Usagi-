@@ -1,12 +1,12 @@
 ---
 source_file: "web/package.json"
 type: "code"
-community: "Desktop Build System"
+community: "Web Build Scripts"
 location: "L9"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_Build_Scripts
 ---
 
 # preview
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[scripts_1]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Build_Scripts

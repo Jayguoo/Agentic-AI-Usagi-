@@ -1,17 +1,17 @@
 ---
 source_file: "web/package.json"
 type: "code"
-community: "Desktop Build System"
+community: "Fable Dev Dependencies"
 location: "L19"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Fable_Dev_Dependencies
 ---
 
 # @vitejs/plugin-react
 
 ## Connections
-- [[devDependencies_1]] - `contains` [EXTRACTED]
+- [[devDependencies]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/code #graphify/EXTRACTED #community/Fable_Dev_Dependencies

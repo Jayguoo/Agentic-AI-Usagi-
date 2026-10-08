@@ -1,18 +1,18 @@
 ---
 source_file: "agent-ui/fable/src/components/TaskInspector.jsx"
 type: "code"
-community: "Fable UI Components"
+community: "Fable Agent UI"
 location: "L20"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Fable_Agent_UI
 ---
 
 # TaskInspector()
 
 ## Connections
-- [[App.jsx]] - `imports` [EXTRACTED]
 - [[TaskInspector.jsx]] - `contains` [EXTRACTED]
+- [[fablesrcApp.jsx]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

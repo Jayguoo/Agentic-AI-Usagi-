@@ -1,19 +1,20 @@
 ---
-source_file: "web/package.json"
+source_file: "agent-ui/fable/package.json"
 type: "code"
-community: "Desktop Build System"
-location: "L12"
+community: "Web Runtime Dependencies"
+location: "L13"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_Runtime_Dependencies
 ---
 
 # dependencies
 
 ## Connections
-- [[package.json_1]] - `contains` [EXTRACTED]
-- [[react_1]] - `contains` [EXTRACTED]
-- [[react-dom_1]] - `contains` [EXTRACTED]
+- [[@phosphor-iconsreact]] - `contains` [EXTRACTED]
+- [[fablepackage.json]] - `contains` [EXTRACTED]
+- [[react_3]] - `contains` [EXTRACTED]
+- [[react-dom_2]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Runtime_Dependencies

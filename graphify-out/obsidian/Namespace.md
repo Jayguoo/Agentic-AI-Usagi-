@@ -1,11 +1,11 @@
 ---
 source_file: ""
 type: "code"
-community: "Agent Core and State"
+community: "AIOS CLI Core"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # Namespace
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[parse_args()]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

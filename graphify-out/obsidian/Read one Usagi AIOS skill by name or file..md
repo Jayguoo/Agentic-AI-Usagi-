@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L487"
+community: "Agent Tools"
+location: "L683"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Agent_Tools
 ---
 
 # Read one Usagi AIOS skill by name or file.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[read_skill()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/Agent_Tools

@@ -1,12 +1,12 @@
 ---
 source_file: "web/src/hooks/useChat.js"
 type: "code"
-community: "Companion UI Components"
+community: "Desktop API and Shell"
 location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Companion_UI_Components
+  - community/Desktop_API_and_Shell
 ---
 
 # useChat()
@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[ChatStage()]] - `calls` [EXTRACTED]
 - [[ChatStage.jsx]] - `imports` [EXTRACTED]
+- [[sendMessage()]] - `calls` [EXTRACTED]
 - [[useChat.js]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Companion_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

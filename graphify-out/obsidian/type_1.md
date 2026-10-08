@@ -1,17 +1,17 @@
 ---
 source_file: "web/package.json"
 type: "code"
-community: "Desktop Build System"
+community: "Web Package Manifest"
 location: "L5"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_Package_Manifest
 ---
 
 # type
 
 ## Connections
-- [[package.json_1]] - `contains` [EXTRACTED]
+- [[webpackage.json]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Package_Manifest

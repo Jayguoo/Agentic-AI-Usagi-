@@ -1,12 +1,12 @@
 ---
 source_file: "web/src/components/ChatStage.jsx"
 type: "code"
-community: "Companion UI Components"
+community: "Desktop API and Shell"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Companion_UI_Components
+  - community/Desktop_API_and_Shell
 ---
 
 # ChatStage.jsx
@@ -27,8 +27,9 @@ tags:
 - [[Star()]] - `imports` [EXTRACTED]
 - [[decorations.jsx]] - `imports_from` [EXTRACTED]
 - [[icons.jsx]] - `imports_from` [EXTRACTED]
+- [[ref_react]] - `imports_from` [EXTRACTED]
 - [[suggestions]] - `contains` [EXTRACTED]
 - [[useChat()]] - `imports` [EXTRACTED]
 - [[useChat.js]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Companion_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L572"
+community: "AIOS CLI Core"
+location: "L768"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # Record how a skill or automation run performed so future runs can improve.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[record_loop_run()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/AIOS_CLI_Core

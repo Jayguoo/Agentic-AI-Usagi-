@@ -1,17 +1,18 @@
 ---
 source_file: "web/package.json"
-type: "code"
-community: "Desktop Build System"
+type: "concept"
+community: "Web App Tests"
 location: "L18"
 tags:
-  - graphify/code
+  - graphify/concept
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_App_Tests
 ---
 
 # @testing-library/react
 
 ## Connections
-- [[devDependencies_1]] - `contains` [EXTRACTED]
+- [[App.test.jsx]] - `imports_from` [EXTRACTED]
+- [[webpackage.json]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/concept #graphify/EXTRACTED #community/Web_App_Tests

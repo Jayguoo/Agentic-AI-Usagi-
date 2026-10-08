@@ -12,13 +12,14 @@ tags:
 # Drawer.jsx
 
 ## Connections
-- [[ActivityIcon()]] - `imports` [EXTRACTED]
-- [[ApprovalsIcon()]] - `imports` [EXTRACTED]
-- [[ChatIcon()]] - `imports` [EXTRACTED]
+- [[ActivityIcon()]] - `indirect_call` [INFERRED]
+- [[ApprovalsIcon()]] - `indirect_call` [INFERRED]
+- [[ChatIcon()]] - `indirect_call` [INFERRED]
 - [[CloseIcon()]] - `imports` [EXTRACTED]
 - [[Drawer()]] - `contains` [EXTRACTED]
-- [[ToolsIcon()]] - `imports` [EXTRACTED]
+- [[ToolsIcon()]] - `indirect_call` [INFERRED]
 - [[icons.jsx]] - `imports_from` [EXTRACTED]
+- [[ref_react]] - `imports_from` [EXTRACTED]
 - [[titles]] - `contains` [EXTRACTED]
 - [[tools]] - `contains` [EXTRACTED]
 

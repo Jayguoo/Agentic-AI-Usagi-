@@ -5,16 +5,16 @@ community: "Desktop API and Shell"
 location: "L21"
 tags:
   - graphify/code
-  - graphify/EXTRACTED
+  - graphify/INFERRED
   - community/Desktop_API_and_Shell
 ---
 
 # ApprovalsIcon()
 
 ## Connections
-- [[App.jsx_1]] - `imports` [EXTRACTED]
-- [[Drawer.jsx]] - `imports` [EXTRACTED]
-- [[Rail.jsx]] - `imports` [EXTRACTED]
+- [[Drawer.jsx]] - `indirect_call` [INFERRED]
+- [[Rail.jsx]] - `indirect_call` [INFERRED]
 - [[icons.jsx]] - `contains` [EXTRACTED]
+- [[websrcApp.jsx]] - `indirect_call` [INFERRED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell
+#graphify/code #graphify/INFERRED #community/Desktop_API_and_Shell

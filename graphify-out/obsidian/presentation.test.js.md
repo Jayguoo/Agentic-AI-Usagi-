@@ -1,12 +1,12 @@
 ---
 source_file: "agent-ui/fable/src/presentation.test.js"
 type: "code"
-community: "Fable UI Components"
+community: "Fable Agent UI"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Fable_Agent_UI
 ---
 
 # presentation.test.js
@@ -18,7 +18,8 @@ tags:
 - [[getSelectedNodeCopy()]] - `imports` [EXTRACTED]
 - [[getToolView()]] - `imports` [EXTRACTED]
 - [[presentation.js]] - `imports_from` [EXTRACTED]
+- [[ref_vitest]] - `imports_from` [EXTRACTED]
 - [[replayToPhase()]] - `imports` [EXTRACTED]
 - [[simulation.js]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

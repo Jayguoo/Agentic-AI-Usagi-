@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L510"
+community: "Agent Tools"
+location: "L706"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Agent_Tools
 ---
 
 # Search Usagi's structured raw/wiki/outputs knowledge store.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[search_knowledge()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/Agent_Tools

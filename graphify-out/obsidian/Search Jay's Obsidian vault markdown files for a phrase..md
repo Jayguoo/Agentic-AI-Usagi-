@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L272"
+community: "Agent Tools"
+location: "L300"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Agent_Tools
 ---
 
 # Search Jay's Obsidian vault markdown files for a phrase.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[search_obsidian()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/Agent_Tools

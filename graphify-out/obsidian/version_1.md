@@ -1,17 +1,17 @@
 ---
-source_file: "agent-ui/fable/.playwright/chromium-1228/chrome-win64/MEIPreload/manifest.json"
+source_file: "web/package.json"
 type: "code"
-community: "Browser Key Metadata"
+community: "Web Package Manifest"
 location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Browser_Key_Metadata
+  - community/Web_Package_Manifest
 ---
 
 # version
 
 ## Connections
-- [[manifest.json_1]] - `contains` [EXTRACTED]
+- [[webpackage.json]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Browser_Key_Metadata
+#graphify/code #graphify/EXTRACTED #community/Web_Package_Manifest

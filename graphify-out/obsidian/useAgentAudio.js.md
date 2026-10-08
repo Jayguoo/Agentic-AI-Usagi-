@@ -1,19 +1,20 @@
 ---
 source_file: "agent-ui/fable/src/hooks/useAgentAudio.js"
 type: "code"
-community: "Fable UI Components"
+community: "Fable Agent UI"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Fable_Agent_UI
 ---
 
 # useAgentAudio.js
 
 ## Connections
-- [[App.jsx]] - `imports_from` [EXTRACTED]
 - [[PHASE_FREQUENCIES]] - `contains` [EXTRACTED]
+- [[fablesrcApp.jsx]] - `imports_from` [EXTRACTED]
+- [[ref_react]] - `imports_from` [EXTRACTED]
 - [[useAgentAudio()]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

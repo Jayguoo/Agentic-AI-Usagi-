@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L323"
+community: "Approval Staging"
+location: "L351"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Approval_Staging
 ---
 
 # Stage a new or appended Obsidian note for Jay's approval.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[stage_obsidian_note()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/Approval_Staging

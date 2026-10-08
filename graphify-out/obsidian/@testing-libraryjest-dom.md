@@ -1,17 +1,17 @@
 ---
 source_file: "web/package.json"
-type: "code"
-community: "Desktop Build System"
+type: "concept"
+community: "Web Package Manifest"
 location: "L17"
 tags:
-  - graphify/code
+  - graphify/concept
   - graphify/EXTRACTED
-  - community/Desktop_Build_System
+  - community/Web_Package_Manifest
 ---
 
 # @testing-library/jest-dom
 
 ## Connections
-- [[devDependencies_1]] - `contains` [EXTRACTED]
+- [[webpackage.json]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_Build_System
+#graphify/concept #graphify/EXTRACTED #community/Web_Package_Manifest

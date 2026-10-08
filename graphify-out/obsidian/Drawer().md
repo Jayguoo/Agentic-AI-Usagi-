@@ -13,5 +13,6 @@ tags:
 
 ## Connections
 - [[Drawer.jsx]] - `contains` [EXTRACTED]
+- [[onKey()]] - `indirect_call` [INFERRED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

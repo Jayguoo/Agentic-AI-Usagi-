@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Agent Core and State"
-location: "L589"
+community: "AIOS CLI Core"
+location: "L785"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # Return a compact status report for Usagi's AIOS state.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[aios_status()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/rationale #graphify/EXTRACTED #community/AIOS_CLI_Core

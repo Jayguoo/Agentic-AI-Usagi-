@@ -1,12 +1,12 @@
 ---
 source_file: "web/src/App.test.jsx"
 type: "code"
-community: "Desktop API and Shell"
+community: "Web App Tests"
 location: "L9"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_API_and_Shell
+  - community/Web_App_Tests
 ---
 
 # api
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[App.test.jsx]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell
+#graphify/code #graphify/EXTRACTED #community/Web_App_Tests

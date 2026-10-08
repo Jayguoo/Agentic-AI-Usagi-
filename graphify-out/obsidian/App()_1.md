@@ -1,20 +1,25 @@
 ---
-source_file: "web/src/App.jsx"
+source_file: "agent-ui/fable/src/App.jsx"
 type: "code"
-community: "Desktop API and Shell"
-location: "L182"
+community: "Fable Agent UI"
+location: "L26"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_API_and_Shell
+  - community/Fable_Agent_UI
 ---
 
 # App()
 
 ## Connections
-- [[App.jsx_1]] - `contains` [EXTRACTED]
-- [[App.test.jsx]] - `imports` [EXTRACTED]
-- [[main.jsx_1]] - `imports` [EXTRACTED]
-- [[useStatus()]] - `calls` [EXTRACTED]
+- [[advanceSimulation()]] - `calls` [EXTRACTED]
+- [[createSimulation()]] - `calls` [EXTRACTED]
+- [[fablesrcApp.jsx]] - `contains` [EXTRACTED]
+- [[fablesrcmain.jsx]] - `imports` [EXTRACTED]
+- [[getPhaseTelemetry()]] - `calls` [EXTRACTED]
+- [[getSelectedNodeCopy()]] - `calls` [EXTRACTED]
+- [[getToolView()]] - `calls` [EXTRACTED]
+- [[replayToPhase()]] - `calls` [EXTRACTED]
+- [[useAgentAudio()]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

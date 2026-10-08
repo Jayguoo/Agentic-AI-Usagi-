@@ -1,17 +1,18 @@
 ---
-source_file: "agent-ui/fable/package.json"
-type: "code"
-community: "Fable Build System"
-location: "L20"
+source_file: "web/package.json"
+type: "concept"
+community: "Fable Package Manifest"
+location: "L19"
 tags:
-  - graphify/code
+  - graphify/concept
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Fable_Package_Manifest
 ---
 
 # @vitejs/plugin-react
 
 ## Connections
-- [[devDependencies]] - `contains` [EXTRACTED]
+- [[fablepackage.json]] - `imports` [EXTRACTED]
+- [[webpackage.json]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/concept #graphify/EXTRACTED #community/Fable_Package_Manifest

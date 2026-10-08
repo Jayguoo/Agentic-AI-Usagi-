@@ -1,20 +1,17 @@
 ---
-source_file: "agent-ui/fable/src/simulation.js"
+source_file: "web/src/App.jsx"
 type: "code"
-community: "Fable UI Components"
-location: "L1"
+community: "Desktop API and Shell"
+location: "L27"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Desktop_API_and_Shell
 ---
 
 # PHASES
 
 ## Connections
-- [[PhaseRail.jsx]] - `imports` [EXTRACTED]
-- [[presentation.js]] - `imports` [EXTRACTED]
-- [[simulation.js]] - `contains` [EXTRACTED]
-- [[simulation.test.js]] - `imports` [EXTRACTED]
+- [[websrcApp.jsx]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

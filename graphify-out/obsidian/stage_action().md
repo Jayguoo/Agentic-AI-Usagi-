@@ -1,18 +1,18 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L197"
+community: "Approval Staging"
+location: "L225"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Approval_Staging
 ---
 
 # stage_action()
 
 ## Connections
-- [[Any]] - `references` [EXTRACTED]
+- [[Any_2]] - `references` [EXTRACTED]
 - [[append_jsonl()]] - `calls` [EXTRACTED]
 - [[now_iso()]] - `calls` [EXTRACTED]
 - [[stage_knowledge_file()]] - `calls` [EXTRACTED]
@@ -22,4 +22,4 @@ tags:
 - [[stage_task()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/Approval_Staging

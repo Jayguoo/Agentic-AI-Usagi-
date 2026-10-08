@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[ChatStage.jsx]] - `imports_from` [EXTRACTED]
 - [[api.js]] - `imports_from` [EXTRACTED]
+- [[ref_react]] - `imports_from` [EXTRACTED]
 - [[sendMessage()]] - `imports` [EXTRACTED]
 - [[useChat()]] - `contains` [EXTRACTED]
 

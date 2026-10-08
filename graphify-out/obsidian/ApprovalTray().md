@@ -1,12 +1,12 @@
 ---
 source_file: "web/src/components/ApprovalTray.jsx"
 type: "code"
-community: "Companion UI Components"
+community: "Desktop API and Shell"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Companion_UI_Components
+  - community/Desktop_API_and_Shell
 ---
 
 # ApprovalTray()
@@ -15,4 +15,4 @@ tags:
 - [[ApprovalTray.jsx]] - `contains` [EXTRACTED]
 - [[ChatStage.jsx]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Companion_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

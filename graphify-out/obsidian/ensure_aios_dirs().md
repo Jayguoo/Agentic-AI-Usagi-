@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L98"
+community: "AIOS CLI Core"
+location: "L126"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # ensure_aios_dirs()
@@ -25,4 +25,4 @@ tags:
 - [[usagi.py]] - `contains` [EXTRACTED]
 - [[write_json()]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

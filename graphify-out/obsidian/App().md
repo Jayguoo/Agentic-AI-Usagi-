@@ -1,19 +1,30 @@
 ---
-source_file: "agent-ui/fable/src/App.jsx"
+source_file: "web/src/App.jsx"
 type: "code"
-community: "Fable UI Components"
-location: "L26"
+community: "Desktop API and Shell"
+location: "L193"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Desktop_API_and_Shell
 ---
 
 # App()
 
 ## Connections
-- [[App.jsx]] - `contains` [EXTRACTED]
-- [[main.jsx]] - `imports` [EXTRACTED]
-- [[useAgentAudio()]] - `calls` [EXTRACTED]
+- [[approveAction()]] - `calls` [EXTRACTED]
+- [[clock()]] - `calls` [EXTRACTED]
+- [[connectEmail()]] - `calls` [EXTRACTED]
+- [[getTradeSnapshot()]] - `calls` [EXTRACTED]
+- [[latestUsagiMessage()]] - `calls` [EXTRACTED]
+- [[openTarget()]] - `calls` [EXTRACTED]
+- [[reminderAction()]] - `calls` [EXTRACTED]
+- [[sendMessage()]] - `calls` [EXTRACTED]
+- [[setPlanApproval()]] - `calls` [EXTRACTED]
+- [[setTradeAccount()]] - `calls` [EXTRACTED]
+- [[setTradeReadOnly()]] - `calls` [EXTRACTED]
+- [[useStatus()]] - `calls` [EXTRACTED]
+- [[websrcApp.jsx]] - `contains` [EXTRACTED]
+- [[websrcmain.jsx]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

@@ -1,21 +1,23 @@
 ---
-source_file: "agent-ui/fable/package.json"
+source_file: "web/package.json"
 type: "code"
-community: "Fable Build System"
-location: "L18"
+community: "Fable Dev Dependencies"
+location: "L16"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Fable_Dev_Dependencies
 ---
 
 # devDependencies
 
 ## Connections
-- [[@playwrighttest]] - `contains` [EXTRACTED]
-- [[@vitejsplugin-react]] - `contains` [EXTRACTED]
-- [[package.json]] - `contains` [EXTRACTED]
-- [[vite]] - `contains` [EXTRACTED]
-- [[vitest]] - `contains` [EXTRACTED]
+- [[@testing-libraryjest-dom_1]] - `contains` [EXTRACTED]
+- [[@testing-libraryreact_1]] - `contains` [EXTRACTED]
+- [[@vitejsplugin-react_1]] - `contains` [EXTRACTED]
+- [[jsdom_1]] - `contains` [EXTRACTED]
+- [[vite_2]] - `contains` [EXTRACTED]
+- [[vitest_2]] - `contains` [EXTRACTED]
+- [[webpackage.json]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/code #graphify/EXTRACTED #community/Fable_Dev_Dependencies

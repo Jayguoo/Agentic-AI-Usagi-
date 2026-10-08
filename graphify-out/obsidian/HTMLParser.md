@@ -1,11 +1,11 @@
 ---
 source_file: ""
 type: "code"
-community: "Web Research Tools"
+community: "HTML Text Extraction"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Web_Research_Tools
+  - community/HTML_Text_Extraction
 ---
 
 # HTMLParser
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[_TextExtractor]] - `inherits` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Web_Research_Tools
+#graphify/code #graphify/EXTRACTED #community/HTML_Text_Extraction

@@ -1,20 +1,19 @@
 ---
-source_file: "agent-ui/fable/package.json"
+source_file: "web/package.json"
 type: "code"
-community: "Fable Build System"
-location: "L13"
+community: "Web Package Manifest"
+location: "L12"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Web_Package_Manifest
 ---
 
 # dependencies
 
 ## Connections
-- [[@phosphor-iconsreact]] - `contains` [EXTRACTED]
-- [[package.json]] - `contains` [EXTRACTED]
-- [[react]] - `contains` [EXTRACTED]
-- [[react-dom]] - `contains` [EXTRACTED]
+- [[react_1]] - `contains` [EXTRACTED]
+- [[react-dom_1]] - `contains` [EXTRACTED]
+- [[webpackage.json]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Package_Manifest

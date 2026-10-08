@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[api()]] - `calls` [EXTRACTED]
 - [[api.js]] - `contains` [EXTRACTED]
+- [[useStatus()]] - `calls` [EXTRACTED]
 - [[useStatus.js]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

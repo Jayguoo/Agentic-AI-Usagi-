@@ -1,31 +1,34 @@
 ---
 source_file: ""
 type: "code"
-community: "OpenTrade Read-Only Bridge"
+community: "Trade Companion Backend"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/OpenTrade_Read-Only_Bridge
+  - community/Trade_Companion_Backend
 ---
 
 # Path
 
 ## Connections
-- [[.test_desktop_backend_exposes_the_opentrade_folder_target()]] - `calls` [INFERRED]
-- [[.test_reads_a_contained_opentrade_source_file()]] - `calls` [INFERRED]
-- [[.test_rejects_secrets_and_paths_outside_opentrade()]] - `calls` [INFERRED]
-- [[.test_searches_safe_opentrade_files_without_indexing_secrets()]] - `calls` [INFERRED]
-- [[append_jsonl()]] - `references` [EXTRACTED]
-- [[load_desktop_app()]] - `calls` [INFERRED]
-- [[load_env_file()]] - `references` [EXTRACTED]
-- [[read_json()]] - `references` [EXTRACTED]
-- [[read_jsonl()]] - `references` [EXTRACTED]
-- [[resolve_knowledge_file()]] - `references` [EXTRACTED]
-- [[resolve_opentrade_file()]] - `references` [EXTRACTED]
-- [[resolve_vault_file()]] - `references` [EXTRACTED]
-- [[rewrite_jsonl()]] - `references` [EXTRACTED]
-- [[search_opentrade_files()]] - `calls` [EXTRACTED]
-- [[update_knowledge_index()]] - `references` [EXTRACTED]
-- [[write_json()]] - `references` [EXTRACTED]
+- [[_parse_routine_log()]] - `references` [EXTRACTED]
+- [[_parse_routine_runs()]] - `references` [EXTRACTED]
+- [[_read_json()]] - `references` [EXTRACTED]
+- [[_read_jsonl()]] - `references` [EXTRACTED]
+- [[_routine_definitions()]] - `references` [EXTRACTED]
+- [[_scanner_settings()]] - `references` [EXTRACTED]
+- [[approvals_path()]] - `references` [EXTRACTED]
+- [[build_snapshot()]] - `references` [EXTRACTED]
+- [[chart_image_path()]] - `references` [EXTRACTED]
+- [[closed_fill_trades()]] - `references` [EXTRACTED]
+- [[fills_path()]] - `references` [EXTRACTED]
+- [[find_account()]] - `references` [EXTRACTED]
+- [[list_accounts()]] - `references` [EXTRACTED]
+- [[read_automations()]] - `references` [EXTRACTED]
+- [[read_cli_diagnostics()]] - `references` [EXTRACTED]
+- [[read_env_file()]] - `references` [EXTRACTED]
+- [[read_fill_journal()]] - `references` [EXTRACTED]
+- [[read_manual_approvals()]] - `references` [EXTRACTED]
+- [[read_tradingview()]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/OpenTrade_Read-Only_Bridge
+#graphify/code #graphify/EXTRACTED #community/Trade_Companion_Backend

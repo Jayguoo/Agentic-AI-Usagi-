@@ -1,17 +1,17 @@
 ---
-source_file: "agent-ui/fable/.playwright/chromium-1228/chrome-win64/IwaKeyDistribution/manifest.json"
+source_file: "agent-ui/fable/package.json"
 type: "code"
-community: "Browser Preload Metadata"
+community: "Fable Package Manifest"
 location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Browser_Preload_Metadata
+  - community/Fable_Package_Manifest
 ---
 
 # version
 
 ## Connections
-- [[manifest.json]] - `contains` [EXTRACTED]
+- [[fablepackage.json]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Browser_Preload_Metadata
+#graphify/code #graphify/EXTRACTED #community/Fable_Package_Manifest

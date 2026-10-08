@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "OpenTrade Read-Only Bridge"
-location: "L144"
+community: "Approval Staging"
+location: "L172"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/OpenTrade_Read-Only_Bridge
+  - community/Approval_Staging
 ---
 
 # safe_slug()
@@ -17,4 +17,4 @@ tags:
 - [[stage_obsidian_note()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/OpenTrade_Read-Only_Bridge
+#graphify/code #graphify/EXTRACTED #community/Approval_Staging

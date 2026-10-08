@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[Rail.jsx]] - `contains` [EXTRACTED]
+- [[clock()_1]] - `indirect_call` [INFERRED]
 - [[today()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

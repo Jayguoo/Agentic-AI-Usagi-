@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L571"
+community: "AIOS CLI Core"
+location: "L767"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # record_loop_run()
@@ -14,8 +14,10 @@ tags:
 ## Connections
 - [[Record how a skill or automation run performed so future runs can improve.]] - `rationale_for` [EXTRACTED]
 - [[append_jsonl()]] - `calls` [EXTRACTED]
+- [[build_agent()]] - `indirect_call` [INFERRED]
 - [[ensure_aios_dirs()]] - `calls` [EXTRACTED]
+- [[function_tool]] - `references` [EXTRACTED]
 - [[now_iso()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

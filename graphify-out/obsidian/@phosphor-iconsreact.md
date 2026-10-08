@@ -1,17 +1,17 @@
 ---
 source_file: "agent-ui/fable/package.json"
 type: "code"
-community: "Fable Build System"
+community: "Web Runtime Dependencies"
 location: "L14"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Web_Runtime_Dependencies
 ---
 
 # @phosphor-icons/react
 
 ## Connections
-- [[dependencies]] - `contains` [EXTRACTED]
+- [[dependencies_1]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/code #graphify/EXTRACTED #community/Web_Runtime_Dependencies

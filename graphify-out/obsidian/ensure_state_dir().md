@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L94"
+community: "AIOS CLI Core"
+location: "L122"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # ensure_state_dir()
@@ -16,7 +16,10 @@ tags:
 - [[ask_agent()]] - `calls` [EXTRACTED]
 - [[ensure_aios_dirs()]] - `calls` [EXTRACTED]
 - [[rewrite_jsonl()]] - `calls` [EXTRACTED]
+- [[save_email_credentials()]] - `calls` [EXTRACTED]
+- [[set_trade_account()]] - `calls` [EXTRACTED]
+- [[set_trade_read_only()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 - [[write_json()]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

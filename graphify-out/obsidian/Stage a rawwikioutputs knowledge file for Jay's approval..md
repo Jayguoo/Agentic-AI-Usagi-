@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "OpenTrade Read-Only Bridge"
-location: "L547"
+community: "Approval Staging"
+location: "L743"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/OpenTrade_Read-Only_Bridge
+  - community/Approval_Staging
 ---
 
 # Stage a raw/wiki/outputs knowledge file for Jay's approval.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[stage_knowledge_file()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/OpenTrade_Read-Only_Bridge
+#graphify/rationale #graphify/EXTRACTED #community/Approval_Staging

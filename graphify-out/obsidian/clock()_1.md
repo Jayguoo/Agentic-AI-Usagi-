@@ -12,6 +12,7 @@ tags:
 # clock()
 
 ## Connections
+- [[Rail()]] - `indirect_call` [INFERRED]
 - [[Rail.jsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

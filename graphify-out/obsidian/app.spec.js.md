@@ -1,14 +1,17 @@
 ---
 source_file: "agent-ui/fable/tests/app.spec.js"
 type: "code"
-community: "Fable UI Tests"
+community: "Fable Package Manifest"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Tests
+  - community/Fable_Package_Manifest
 ---
 
 # app.spec.js
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Tests
+## Connections
+- [[@playwrighttest]] - `imports_from` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Fable_Package_Manifest

@@ -1,24 +1,24 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Web Research Tools"
-location: "L609"
+community: "HTML Text Extraction"
+location: "L805"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Web_Research_Tools
+  - community/HTML_Text_Extraction
 ---
 
 # _TextExtractor
 
 ## Connections
-- [[.__init__()_1]] - `method` [EXTRACTED]
-- [[.handle_data()]] - `method` [EXTRACTED]
-- [[.handle_endtag()]] - `method` [EXTRACTED]
-- [[.handle_starttag()]] - `method` [EXTRACTED]
-- [[.text()]] - `method` [EXTRACTED]
+- [[dot-__init__()_2]] - `method` [EXTRACTED]
+- [[dot-handle_data()]] - `method` [EXTRACTED]
+- [[dot-handle_endtag()]] - `method` [EXTRACTED]
+- [[dot-handle_starttag()]] - `method` [EXTRACTED]
+- [[dot-text()]] - `method` [EXTRACTED]
 - [[HTMLParser]] - `inherits` [EXTRACTED]
 - [[fetch_url()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Web_Research_Tools
+#graphify/code #graphify/EXTRACTED #community/HTML_Text_Extraction

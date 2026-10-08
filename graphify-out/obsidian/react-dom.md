@@ -1,17 +1,18 @@
 ---
-source_file: "agent-ui/fable/package.json"
-type: "code"
-community: "Fable Build System"
-location: "L16"
+source_file: "web/package.json"
+type: "concept"
+community: "Fable Package Manifest"
+location: "L14"
 tags:
-  - graphify/code
+  - graphify/concept
   - graphify/EXTRACTED
-  - community/Fable_Build_System
+  - community/Fable_Package_Manifest
 ---
 
 # react-dom
 
 ## Connections
-- [[dependencies]] - `contains` [EXTRACTED]
+- [[fablepackage.json]] - `imports` [EXTRACTED]
+- [[webpackage.json]] - `imports` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_Build_System
+#graphify/concept #graphify/EXTRACTED #community/Fable_Package_Manifest

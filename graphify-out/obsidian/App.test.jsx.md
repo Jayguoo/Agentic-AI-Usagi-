@@ -1,19 +1,28 @@
 ---
 source_file: "web/src/App.test.jsx"
 type: "code"
-community: "Desktop API and Shell"
+community: "Web App Tests"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Desktop_API_and_Shell
+  - community/Web_App_Tests
 ---
 
 # App.test.jsx
 
 ## Connections
-- [[App()_1]] - `imports` [EXTRACTED]
-- [[App.jsx_1]] - `imports_from` [EXTRACTED]
+- [[@testing-libraryreact]] - `imports_from` [EXTRACTED]
+- [[TRADE_FIXTURE]] - `contains` [EXTRACTED]
 - [[api]] - `contains` [EXTRACTED]
+- [[appState]] - `contains` [EXTRACTED]
+- [[mockSystemTheme()]] - `contains` [EXTRACTED]
+- [[ref_node_fs]] - `imports_from` [EXTRACTED]
+- [[ref_node_path]] - `imports_from` [EXTRACTED]
+- [[ref_react]] - `imports_from` [EXTRACTED]
+- [[ref_testing_library_jest_dom_vitest]] - `imports_from` [EXTRACTED]
+- [[ref_vitest]] - `imports_from` [EXTRACTED]
+- [[storageMock]] - `contains` [EXTRACTED]
+- [[websrcApp.jsx]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell
+#graphify/code #graphify/EXTRACTED #community/Web_App_Tests

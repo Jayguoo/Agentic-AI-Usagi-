@@ -1,19 +1,20 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L74"
+community: "AIOS CLI Core"
+location: "L102"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # load_env_file()
 
 ## Connections
-- [[Path]] - `references` [EXTRACTED]
+- [[Path_3]] - `references` [EXTRACTED]
 - [[ask_agent()]] - `calls` [EXTRACTED]
+- [[review_new_trades()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

@@ -1,22 +1,22 @@
 ---
 source_file: "usagi.py"
 type: "code"
-community: "Agent Core and State"
-location: "L173"
+community: "AIOS CLI Core"
+location: "L201"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/AIOS_CLI_Core
 ---
 
 # update_knowledge_index()
 
 ## Connections
-- [[Path]] - `references` [EXTRACTED]
+- [[Path_3]] - `references` [EXTRACTED]
 - [[approve_action()]] - `calls` [EXTRACTED]
 - [[now_iso()]] - `calls` [EXTRACTED]
 - [[read_json()]] - `calls` [EXTRACTED]
 - [[usagi.py]] - `contains` [EXTRACTED]
 - [[write_json()]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/AIOS_CLI_Core

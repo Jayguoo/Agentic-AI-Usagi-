@@ -1,21 +1,21 @@
 ---
 source_file: "agent-ui/fable/src/components/PhaseRail.jsx"
 type: "code"
-community: "Fable UI Components"
+community: "Fable Agent UI"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Fable_Agent_UI
 ---
 
 # PhaseRail.jsx
 
 ## Connections
-- [[App.jsx]] - `imports_from` [EXTRACTED]
-- [[PHASES]] - `imports` [EXTRACTED]
+- [[PHASES_1]] - `imports` [EXTRACTED]
 - [[PHASE_META]] - `imports` [EXTRACTED]
 - [[PhaseRail()]] - `contains` [EXTRACTED]
+- [[fablesrcApp.jsx]] - `imports_from` [EXTRACTED]
 - [[simulation.js]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

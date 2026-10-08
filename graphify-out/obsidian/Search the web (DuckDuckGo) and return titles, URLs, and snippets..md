@@ -1,12 +1,12 @@
 ---
 source_file: "usagi.py"
 type: "rationale"
-community: "Web Research Tools"
-location: "L661"
+community: "Trading-Day Research"
+location: "L863"
 tags:
   - graphify/rationale
   - graphify/EXTRACTED
-  - community/Web_Research_Tools
+  - community/Trading-Day_Research
 ---
 
 # Search the web (DuckDuckGo) and return titles, URLs, and snippets.
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[web_search()]] - `rationale_for` [EXTRACTED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Web_Research_Tools
+#graphify/rationale #graphify/EXTRACTED #community/Trading-Day_Research

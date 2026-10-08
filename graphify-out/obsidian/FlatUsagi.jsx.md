@@ -1,18 +1,19 @@
 ---
 source_file: "agent-ui/fable/src/components/FlatUsagi.jsx"
 type: "code"
-community: "Fable UI Components"
+community: "Fable Agent UI"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Fable_UI_Components
+  - community/Fable_Agent_UI
 ---
 
 # FlatUsagi.jsx
 
 ## Connections
-- [[App.jsx]] - `imports_from` [EXTRACTED]
 - [[FlatUsagi()]] - `contains` [EXTRACTED]
+- [[agent_ui_fable_src_assets_usagi]] - `imports_from` [EXTRACTED]
+- [[fablesrcApp.jsx]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Fable_UI_Components
+#graphify/code #graphify/EXTRACTED #community/Fable_Agent_UI

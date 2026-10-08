@@ -12,8 +12,8 @@ tags:
 # RefreshIcon()
 
 ## Connections
-- [[App.jsx_1]] - `imports` [EXTRACTED]
 - [[ChatStage.jsx]] - `imports` [EXTRACTED]
 - [[icons.jsx]] - `contains` [EXTRACTED]
+- [[websrcApp.jsx]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Desktop_API_and_Shell

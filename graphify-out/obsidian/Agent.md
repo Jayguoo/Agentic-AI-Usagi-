@@ -1,11 +1,11 @@
 ---
 source_file: ""
 type: "code"
-community: "Agent Core and State"
+community: "Agent Tools"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Agent_Core_and_State
+  - community/Agent_Tools
 ---
 
 # Agent
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[build_agent()]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Agent_Core_and_State
+#graphify/code #graphify/EXTRACTED #community/Agent_Tools
